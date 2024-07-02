@@ -6,6 +6,7 @@ import {
   ARBITRUM_LOGO,
   AVALANCHE_LOGO,
   BASE_LOGO,
+  BITLAYER_LOGO,
   BLAST_LOGO,
   BNB_LOGO,
   CELO_LOGO,
@@ -104,6 +105,12 @@ export function getChainUI(chainId: ChainId, darkMode: boolean): ChainUI | undef
             bgColor: 'rgba(65, 71, 148, 0.12)',
             textColor: '#414794',
           }
+    case ChainId.BITLAYER_TESTNET:
+      return {
+        symbol: BITLAYER_LOGO,
+        bgColor: '#6B8AFF33',
+        textColor: '#6B8AFF',
+      }
     default:
       return undefined
   }

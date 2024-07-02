@@ -180,3 +180,18 @@ export const USDC_ZORA = new Token(
   'USDC',
   'USD Coin'
 )
+
+export const USDC_BITLAYER_TESTNET = new Token(
+  UniverseChainId.BITLAYER_TESTNET,
+  '0x209ba92b5Cc962673a30998ED7A223109D0BE5e8',
+  18,
+  'USDC',
+  'USD Coin'
+)
+export const USDT_BITLAYER_TESTNET = new Token(
+  UniverseChainId.BITLAYER_TESTNET,
+  '0xab40Fe1DaE842B209599269B8DafB0c54a743438',
+  18,
+  'USDT',
+  'Tether USD'
+)

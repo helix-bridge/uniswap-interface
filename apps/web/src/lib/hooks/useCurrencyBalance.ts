@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Token } from '@uniswap/sdk-core'
+import { ChainId, Currency, CurrencyAmount, Token } from '@uniswap/sdk-core'
 import JSBI from 'jsbi'
 import { useMemo } from 'react'
 
@@ -183,7 +183,7 @@ export function useCurrencyBalances(
   chainId?: number
 ): (CurrencyAmount<Currency> | undefined)[] {
   const { chainId: providerChainId } = useAccount()
-  const isSynced = chainId === providerChainId
+  const isSynced = chainId === providerChainId || providerChainId === ChainId.BITLAYER_TESTNET
 
   const gqlCurrencyBalances = useGqlCurrencyBalances(account, currencies)
   const rpcCurrencyBalances = useRpcCurrencyBalances(account, currencies)

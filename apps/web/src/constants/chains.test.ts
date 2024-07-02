@@ -41,6 +41,7 @@ const chainPriorityTestCases: [ChainId, number][] = [
   [ChainId.CELO_ALFAJORES, 7],
   [ChainId.BLAST, 8],
   [ChainId.ZORA, 9],
+  [ChainId.BITLAYER_TESTNET, 9],
 ]
 
 test.each(chainPriorityTestCases)(
@@ -68,6 +69,7 @@ const chainIdNames: { [chainId in SupportedInterfaceChainId]: string } = {
   [ChainId.BASE]: 'base',
   [ChainId.BLAST]: 'blast',
   [ChainId.ZORA]: 'zora',
+  [ChainId.BITLAYER_TESTNET]: 'bitlayer_testnet',
 } as const
 
 test.each(Object.keys(chainIdNames).map((key) => parseInt(key) as SupportedInterfaceChainId))(
@@ -106,6 +108,7 @@ const testnetChainIds = [
   ChainId.ARBITRUM_GOERLI,
   ChainId.OPTIMISM_GOERLI,
   ChainId.CELO_ALFAJORES,
+  ChainId.BITLAYER_TESTNET,
 ] as const
 
 test.each(testnetChainIds)('TESTNET_CHAIN_IDS generates the correct chainIds', (chainId: SupportedInterfaceChainId) => {
@@ -138,6 +141,7 @@ const l2ChainIds = [
   ChainId.BASE,
   ChainId.BLAST,
   ChainId.ZORA,
+  ChainId.BITLAYER_TESTNET,
 ] as const
 
 test.each(l2ChainIds)('L2_CHAIN_IDS generates the correct chainIds', (chainId: SupportedInterfaceChainId) => {

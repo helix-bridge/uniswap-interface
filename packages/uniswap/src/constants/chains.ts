@@ -4,6 +4,7 @@ import {
   ARBITRUM_LOGO,
   AVALANCHE_LOGO,
   BASE_LOGO,
+  BITLAYER_LOGO,
   BLAST_LOGO,
   BNB_LOGO,
   CELO_LOGO,
@@ -37,6 +38,7 @@ import {
   USDC_ARBITRUM_GOERLI,
   USDC_AVALANCHE,
   USDC_BASE,
+  USDC_BITLAYER_TESTNET,
   USDC_BSC,
   USDC_CELO,
   USDC_GOERLI,
@@ -48,6 +50,7 @@ import {
   USDC_SEPOLIA,
   USDC_ZORA,
   USDT,
+  USDT_BITLAYER_TESTNET,
   USDT_BSC,
 } from 'uniswap/src/constants/tokens'
 import { Chain as BackendChainId } from 'uniswap/src/data/graphql/uniswap-data-api/__generated__/types-and-hooks'
@@ -992,6 +995,74 @@ export const UNIVERSE_CHAIN_INFO = {
       symbol: 'WETH',
       decimals: 18,
       address: '0x4200000000000000000000000000000000000006',
+    },
+  } as const satisfies UniverseChainInfo,
+  [UniverseChainId.BITLAYER_TESTNET]: {
+    name: 'Bitlayer Testnet',
+    testnet: true,
+    blockExplorers: {
+      default: {
+        name: 'Btrscan',
+        url: 'https://testnet.btrscan.com',
+      },
+    },
+    rpcUrls: {
+      default: { http: ['https://testnet-rpc.bitlayer.org'] },
+      fallback: { http: ['https://testnet-rpc.bitlayer.org'] },
+      appOnly: { http: [`https://testnet-rpc.bitlayer.org`] },
+    },
+    contracts: {
+      multicall3: {
+        address: '0xc5d24255525dd22990c182bc6431ffae873f1109',
+        blockCreated: 3802953,
+      },
+    },
+
+    id: UniverseChainId.BITLAYER_TESTNET,
+    assetRepoNetworkName: undefined,
+    backendChain: {
+      chain: BackendChainId.Ethereum as InterfaceGqlChain, // TODO
+      backendSupported: false,
+      isSecondaryChain: false,
+      nativeTokenBackendAddress: undefined,
+    },
+    blockPerMainnetEpochForChainId: 4,
+    blockWaitMsBeforeWarning: undefined,
+    bridge: 'https://www.bitlayer.org/bridge/testnet',
+    chainPriority: 0,
+    docs: 'https://docs.bitlayer.org/',
+    elementName: ElementName.ChainBitlayerTestnet,
+    explorer: {
+      name: 'BtrScan',
+      url: 'https://testnet.btrscan.com/',
+      logoLight: EtherscanLogoLight,
+      logoDark: EtherscanLogoDark,
+    },
+    helpCenterUrl: undefined,
+    infoLink: 'https://app.uniswap.org/explore', // TODO
+    infuraPrefix: undefined,
+    interfaceName: 'bitlayer_testnet',
+    label: 'Bitlayer Testnet',
+    logo: BITLAYER_LOGO,
+    nativeCurrency: {
+      name: 'Bitlayer BTC',
+      symbol: 'BTC',
+      decimals: 18,
+      address: DEFAULT_NATIVE_ADDRESS,
+    },
+    networkLayer: NetworkLayer.L2,
+    pendingTransactionsRetryOptions: undefined,
+    spotPriceStablecoinAmount: CurrencyAmount.fromRawAmount(USDC_BITLAYER_TESTNET, 10_000e18),
+    stablecoins: [USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET],
+    statusPage: undefined,
+    supportsClientSideRouting: true,
+    supportsGasEstimates: false,
+    urlParam: 'bitlayer_testnet',
+    wrappedNativeCurrency: {
+      name: 'Wrapped BTC',
+      symbol: 'WBTC',
+      decimals: 18,
+      address: '0x5F8D4232367759bCe5d9488D3ade77FCFF6B9b6B',
     },
   } as const satisfies UniverseChainInfo,
 }

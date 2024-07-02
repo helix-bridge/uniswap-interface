@@ -52,7 +52,7 @@ function useTicksFromSubgraph(
       skip,
       first: MAX_TICK_FETCH_VALUE,
     },
-    skip: !poolAddress,
+    skip: !poolAddress || chainId === ChainId.BITLAYER_TESTNET,
     pollInterval: ms(`30s`),
   })
 }
