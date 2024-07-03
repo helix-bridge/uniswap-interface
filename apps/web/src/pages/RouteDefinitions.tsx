@@ -108,14 +108,14 @@ function createRouteDefinition(route: Partial<RouteDefinition>): RouteDefinition
 }
 
 export const routes: RouteDefinition[] = [
-  createRouteDefinition({
-    path: '/',
-    getTitle: () => StaticTitlesAndDescriptions.UniswapTitle,
-    getDescription: () => StaticTitlesAndDescriptions.SwapDescription,
-    getElement: (args) => {
-      return args.browserRouterEnabled && args.hash ? <Navigate to={args.hash.replace('#', '')} replace /> : <Landing />
-    },
-  }),
+  // createRouteDefinition({
+  //   path: '/',
+  //   getTitle: () => StaticTitlesAndDescriptions.UniswapTitle,
+  //   getDescription: () => StaticTitlesAndDescriptions.SwapDescription,
+  //   getElement: (args) => {
+  //     return args.browserRouterEnabled && args.hash ? <Navigate to={args.hash.replace('#', '')} replace /> : <Landing />
+  //   },
+  // }),
   createRouteDefinition({
     path: '/explore',
     getTitle: getExploreTitle,
@@ -129,24 +129,24 @@ export const routes: RouteDefinition[] = [
     getDescription: () => StaticTitlesAndDescriptions.TDPDescription,
     getElement: () => <TokenDetails />,
   }),
-  createRouteDefinition({
-    path: '/tokens',
-    getTitle: getExploreTitle,
-    getDescription: getExploreDescription,
-    getElement: () => <Navigate to="/explore/tokens" replace />,
-  }),
-  createRouteDefinition({
-    path: '/tokens/:chainName',
-    getTitle: getExploreTitle,
-    getDescription: getExploreDescription,
-    getElement: () => <RedirectExplore />,
-  }),
-  createRouteDefinition({
-    path: '/tokens/:chainName/:tokenAddress',
-    getTitle: () => StaticTitlesAndDescriptions.DetailsPageBaseTitle,
-    getDescription: () => StaticTitlesAndDescriptions.TDPDescription,
-    getElement: () => <RedirectExplore />,
-  }),
+  // createRouteDefinition({
+  //   path: '/tokens',
+  //   getTitle: getExploreTitle,
+  //   getDescription: getExploreDescription,
+  //   getElement: () => <Navigate to="/explore/tokens" replace />,
+  // }),
+  // createRouteDefinition({
+  //   path: '/tokens/:chainName',
+  //   getTitle: getExploreTitle,
+  //   getDescription: getExploreDescription,
+  //   getElement: () => <RedirectExplore />,
+  // }),
+  // createRouteDefinition({
+  //   path: '/tokens/:chainName/:tokenAddress',
+  //   getTitle: () => StaticTitlesAndDescriptions.DetailsPageBaseTitle,
+  //   getDescription: () => StaticTitlesAndDescriptions.TDPDescription,
+  //   getElement: () => <RedirectExplore />,
+  // }),
   createRouteDefinition({
     path: '/explore/pools/:chainName/:poolAddress',
     getTitle: () => StaticTitlesAndDescriptions.DetailsPageBaseTitle,
@@ -157,44 +157,45 @@ export const routes: RouteDefinition[] = [
       </Suspense>
     ),
   }),
+  // createRouteDefinition({
+  //   path: '/vote/*',
+  //   getTitle: () => t('title.voteOnGov'),
+  //   getDescription: () => t('title.uniToken'),
+  //   getElement: () => (
+  //     <Suspense fallback={<LazyLoadSpinner />}>
+  //       <Vote />
+  //     </Suspense>
+  //   ),
+  // }),
+  // createRouteDefinition({
+  //   path: '/create-proposal',
+  //   getTitle: () => t('title.createGovernanceOn'),
+  //   getDescription: () => t('title.createGovernanceTo'),
+  //   getElement: () => <Navigate to="/vote/create-proposal" replace />,
+  // }),
+  // createRouteDefinition({
+  //   path: '/buy',
+  //   getElement: () => <Swap />,
+  //   getTitle: () => StaticTitlesAndDescriptions.SwapTitle,
+  // }),
+  // createRouteDefinition({
+  //   path: '/send',
+  //   getElement: () => <Swap />,
+  //   getTitle: () => t('title.sendTokens'),
+  // }),
+  // createRouteDefinition({
+  //   path: '/limits',
+  //   getElement: () => <Navigate to="/limit" replace />,
+  //   getTitle: () => t('title.placeLimit'),
+  // }),
+  // createRouteDefinition({
+  //   path: '/limit',
+  //   getElement: () => <Swap />,
+  //   getTitle: () => t('title.placeLimit'),
+  // }),
   createRouteDefinition({
-    path: '/vote/*',
-    getTitle: () => t('title.voteOnGov'),
-    getDescription: () => t('title.uniToken'),
-    getElement: () => (
-      <Suspense fallback={<LazyLoadSpinner />}>
-        <Vote />
-      </Suspense>
-    ),
-  }),
-  createRouteDefinition({
-    path: '/create-proposal',
-    getTitle: () => t('title.createGovernanceOn'),
-    getDescription: () => t('title.createGovernanceTo'),
-    getElement: () => <Navigate to="/vote/create-proposal" replace />,
-  }),
-  createRouteDefinition({
-    path: '/buy',
-    getElement: () => <Swap />,
-    getTitle: () => StaticTitlesAndDescriptions.SwapTitle,
-  }),
-  createRouteDefinition({
-    path: '/send',
-    getElement: () => <Swap />,
-    getTitle: () => t('title.sendTokens'),
-  }),
-  createRouteDefinition({
-    path: '/limits',
-    getElement: () => <Navigate to="/limit" replace />,
-    getTitle: () => t('title.placeLimit'),
-  }),
-  createRouteDefinition({
-    path: '/limit',
-    getElement: () => <Swap />,
-    getTitle: () => t('title.placeLimit'),
-  }),
-  createRouteDefinition({
-    path: '/swap',
+    // path: '/swap',
+    path: '/',
     getElement: () => <Swap />,
     getTitle: () => StaticTitlesAndDescriptions.SwapTitle,
   }),
@@ -277,70 +278,70 @@ export const routes: RouteDefinition[] = [
     getTitle: () => t('title.removePoolLiquidity'),
     getDescription: () => t('title.removev3Liquidity'),
   }),
-  createRouteDefinition({
-    path: '/migrate/v2',
-    getElement: () => <MigrateV2 />,
-    getTitle: () => StaticTitlesAndDescriptions.MigrateTitle,
-    getDescription: () => StaticTitlesAndDescriptions.MigrateDescription,
-  }),
-  createRouteDefinition({
-    path: '/migrate/v2/:address',
-    getElement: () => <MigrateV2Pair />,
-    getTitle: () => StaticTitlesAndDescriptions.MigrateTitle,
-    getDescription: () => StaticTitlesAndDescriptions.MigrateDescription,
-  }),
-  createRouteDefinition({
-    path: '/nfts',
-    getElement: () => (
-      <Suspense fallback={null}>
-        <NftExplore />
-      </Suspense>
-    ),
-    enabled: (args) => !args.shouldDisableNFTRoutes,
-    getTitle: () => t('title.exploreNFTs'),
-    getDescription: () => t('title.betterPricesMoreListings'),
-  }),
-  createRouteDefinition({
-    path: '/nfts/asset/:contractAddress/:tokenId',
-    getElement: () => (
-      <Suspense fallback={null}>
-        <Asset />
-      </Suspense>
-    ),
-    enabled: (args) => !args.shouldDisableNFTRoutes,
-    getTitle: () => StaticTitlesAndDescriptions.NFTTitle,
-  }),
-  createRouteDefinition({
-    path: '/nfts/profile',
-    getElement: () => (
-      <Suspense fallback={null}>
-        <Profile />
-      </Suspense>
-    ),
-    enabled: (args) => !args.shouldDisableNFTRoutes,
-    getTitle: () => StaticTitlesAndDescriptions.NFTTitle,
-    getDescription: () => t('title.manageNFT'),
-  }),
-  createRouteDefinition({
-    path: '/nfts/collection/:contractAddress',
-    getElement: () => (
-      <Suspense fallback={null}>
-        <Collection />
-      </Suspense>
-    ),
-    enabled: (args) => !args.shouldDisableNFTRoutes,
-    getTitle: () => StaticTitlesAndDescriptions.NFTTitle,
-  }),
-  createRouteDefinition({
-    path: '/nfts/collection/:contractAddress/activity',
-    getElement: () => (
-      <Suspense fallback={null}>
-        <Collection />
-      </Suspense>
-    ),
-    enabled: (args) => !args.shouldDisableNFTRoutes,
-    getTitle: () => StaticTitlesAndDescriptions.NFTTitle,
-  }),
+  // createRouteDefinition({
+  //   path: '/migrate/v2',
+  //   getElement: () => <MigrateV2 />,
+  //   getTitle: () => StaticTitlesAndDescriptions.MigrateTitle,
+  //   getDescription: () => StaticTitlesAndDescriptions.MigrateDescription,
+  // }),
+  // createRouteDefinition({
+  //   path: '/migrate/v2/:address',
+  //   getElement: () => <MigrateV2Pair />,
+  //   getTitle: () => StaticTitlesAndDescriptions.MigrateTitle,
+  //   getDescription: () => StaticTitlesAndDescriptions.MigrateDescription,
+  // }),
+  // createRouteDefinition({
+  //   path: '/nfts',
+  //   getElement: () => (
+  //     <Suspense fallback={null}>
+  //       <NftExplore />
+  //     </Suspense>
+  //   ),
+  //   enabled: (args) => !args.shouldDisableNFTRoutes,
+  //   getTitle: () => t('title.exploreNFTs'),
+  //   getDescription: () => t('title.betterPricesMoreListings'),
+  // }),
+  // createRouteDefinition({
+  //   path: '/nfts/asset/:contractAddress/:tokenId',
+  //   getElement: () => (
+  //     <Suspense fallback={null}>
+  //       <Asset />
+  //     </Suspense>
+  //   ),
+  //   enabled: (args) => !args.shouldDisableNFTRoutes,
+  //   getTitle: () => StaticTitlesAndDescriptions.NFTTitle,
+  // }),
+  // createRouteDefinition({
+  //   path: '/nfts/profile',
+  //   getElement: () => (
+  //     <Suspense fallback={null}>
+  //       <Profile />
+  //     </Suspense>
+  //   ),
+  //   enabled: (args) => !args.shouldDisableNFTRoutes,
+  //   getTitle: () => StaticTitlesAndDescriptions.NFTTitle,
+  //   getDescription: () => t('title.manageNFT'),
+  // }),
+  // createRouteDefinition({
+  //   path: '/nfts/collection/:contractAddress',
+  //   getElement: () => (
+  //     <Suspense fallback={null}>
+  //       <Collection />
+  //     </Suspense>
+  //   ),
+  //   enabled: (args) => !args.shouldDisableNFTRoutes,
+  //   getTitle: () => StaticTitlesAndDescriptions.NFTTitle,
+  // }),
+  // createRouteDefinition({
+  //   path: '/nfts/collection/:contractAddress/activity',
+  //   getElement: () => (
+  //     <Suspense fallback={null}>
+  //       <Collection />
+  //     </Suspense>
+  //   ),
+  //   enabled: (args) => !args.shouldDisableNFTRoutes,
+  //   getTitle: () => StaticTitlesAndDescriptions.NFTTitle,
+  // }),
   createRouteDefinition({ path: '*', getElement: () => <Navigate to="/not-found" replace /> }),
   createRouteDefinition({ path: '/not-found', getElement: () => <NotFound /> }),
 ]
