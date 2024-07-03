@@ -111,7 +111,7 @@
     "g:test": "turbo run test",
     "g:test:coverage": "turbo run test -- --collectCoverage=true",
     "g:test:coverage:rest": "turbo run test --filter=ui --filter=uniswap --filter=utilities --filter=@uniswap/eslint-config -- --collectCoverage=true",
-    "g:test:coverage:web": "turbo test --filter=@uniswap/interface -- --collectCoverage=true",
+    "g:test:coverage:web": "turbo test --filter=@helix-bridge/interface -- --collectCoverage=true",
     "g:test:coverage:stretch": "turbo test --filter=@uniswap/stretch -- --collectCoverage=true",
     "g:test:coverage:mobile": "turbo test --filter=@uniswap/mobile -- --collectCoverage=true",
     "g:test:coverage:wallet": "turbo test --filter=wallet -- --collectCoverage=true",
@@ -134,7 +134,7 @@
     "upgrade:tamagui": "yarn up '*tamagui*' '@tamagui/*'",
     "upgrade:tamagui:canary": "yarn up '*tamagui*'@canary '@tamagui/*'@canary",
     "wallet": "yarn workspace wallet",
-    "web": "yarn workspace @uniswap/interface",
+    "web": "yarn workspace @helix-bridge/interface",
     "uniswap": "yarn workspace uniswap",
     "utilities": "yarn workspace utilities"
   },

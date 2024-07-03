@@ -14,7 +14,7 @@
         "src/**/__generated__/**"
       ]
     },
-    "@uniswap/interface#prepare": {
+    "@helix-bridge/interface#prepare": {
       "inputs": [
         "package.json"
       ],
@@ -52,7 +52,7 @@
         "src/abis/**"
       ]
     },
-    "@uniswap/interface#ajv": {
+    "@helix-bridge/interface#ajv": {
       "inputs": [
         "scripts/compile-ajv-validators.js",
         "package.json"

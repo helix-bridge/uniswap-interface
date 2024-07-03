@@ -1,7 +1,7 @@
 {
-  "name": "@uniswap/interface",
+  "name": "@helix-bridge/interface",
   "version": "1.1.0",
-  "description": "Uniswap Interface",
+  "description": "HelixSwap Interface",
   "license": "GPL-3.0-or-later",
   "scripts": {
     "ajv": "node scripts/compile-ajv-validators.js",
