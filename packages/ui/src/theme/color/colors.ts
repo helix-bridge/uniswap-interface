@@ -186,12 +186,12 @@ const sporeLight = {
   neutral2: '#7D7D7D',
   neutral3: '#CECECE',
 
-  accent1: '#FC72FF',
-  accent1Hovered: '#C70A92',
-  accent2: '#FFEFFF',
-  accent2Hovered: '#FEEBFC',
+  accent1: '#4C82FB',
+  accent1Hovered: '#2569fA',
+  accent2: '#E8F2FB',
+  accent2Hovered: '#D2E7FA',
 
-  accentSoft: '#FC72FF33', //33 = 20%
+  accentSoft: '#4C82FB33', //33 = 20%
 
   statusActive: '#236EFF',
   statusSuccess: '#40B66B',
@@ -217,12 +217,12 @@ const sporeDark = {
   neutral2: '#9B9B9B',
   neutral3: '#5E5E5E',
 
-  accent1: '#FC72FF',
-  accent1Hovered: '#FD3CFE',
-  accent2: '#311C31',
-  accent2Hovered: '#510D43',
+  accent1: '#4C82FB',
+  accent1Hovered: '#2569fA',
+  accent2: '#002851',
+  accent2Hovered: '#001B36',
 
-  accentSoft: '#FC72FF33', //33 = 20%
+  accentSoft: '#4C82FB33', //33 = 20%
 
   statusActive: '#236EFF',
   statusSuccess: '#40B66B',
