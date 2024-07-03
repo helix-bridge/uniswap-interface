@@ -2,6 +2,7 @@ import { ApolloError } from '@apollo/client'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { InterfaceElementName } from '@uniswap/analytics-events'
 import { ChainId, Percent } from '@uniswap/sdk-core'
+import { ButtonEmphasis, ButtonSize, ThemeButton } from 'components/Button'
 import { DoubleCurrencyAndChainLogo } from 'components/DoubleLogo'
 import Row from 'components/Row'
 import { Table } from 'components/Table'
@@ -20,10 +21,12 @@ import { Trans } from 'i18n'
 import { useAtom } from 'jotai'
 import { atomWithReset, useAtomValue, useResetAtom, useUpdateAtom } from 'jotai/utils'
 import { ReactElement, ReactNode, useCallback, useEffect, useMemo } from 'react'
+import { useSwapAndLimitContext } from 'state/swap/hooks'
 import styled from 'styled-components'
 import { ThemedText } from 'theme/components'
 import { ProtocolVersion, Token } from 'uniswap/src/data/graphql/uniswap-data-api/__generated__/types-and-hooks'
 import { NumberType, useFormatter } from 'utils/formatNumbers'
+import { useAccount } from 'wagmi'
 
 const HEADER_DESCRIPTIONS: Record<PoolSortFields, ReactNode | undefined> = {
   [PoolSortFields.TVL]: undefined,
@@ -395,4 +398,139 @@ export function PoolsTable({
       maxHeight={maxHeight}
     />
   )
+}
+
+interface AllPoolTableValues {
+  index: number;
+  pool: string;
+  feeTier: number;
+  balance: number;
+  myLiquidity: number;
+}
+
+export function ChainAllPoolsTable() {
+  const account = useAccount();
+  const { chainId } = useSwapAndLimitContext();
+
+  return <AllPoolsTable loading={false} />;
+}
+
+function AllPoolsTable({ loading }: { loading: boolean }) {
+  const data = new Array(10)
+    .fill(0)
+    .map((_, index) => ({
+      index,
+      pool: "USDC/USDT",
+      feeTier: 100,
+      balance: 20,
+      myLiquidity: 60,
+    }));
+  const columns = useMemo(() => {
+    const columnHelper = createColumnHelper<AllPoolTableValues>();
+    return [
+      columnHelper.accessor((row) => row.index, {
+        id: "index",
+        header: () => (
+          <Cell justifyContent="center" minWidth={44}>
+            <ThemedText.BodySecondary>#</ThemedText.BodySecondary>
+          </Cell>
+        ),
+        cell: (index) => (
+          <Cell justifyContent="center" loading={loading} minWidth={44}>
+            <ThemedText.BodySecondary>
+              {index.getValue?.()}
+            </ThemedText.BodySecondary>
+          </Cell>
+        ),
+      }),
+      columnHelper.accessor((row) => row.pool, {
+        id: "Pool",
+        header: () => (
+          <Cell justifyContent="flex-start" width={120} grow>
+            <ThemedText.BodySecondary>{`Fee tier`}</ThemedText.BodySecondary>
+          </Cell>
+        ),
+        cell: (pool) => (
+          <Cell justifyContent="flex-start" loading={loading} width={120} grow>
+            {pool.getValue?.()}
+          </Cell>
+        ),
+      }),
+      columnHelper.accessor((row) => row.feeTier, {
+        id: "feeTier",
+        header: () => (
+          <Cell justifyContent="flex-end" width={80} grow>
+            <ThemedText.BodySecondary>{`Fee tier`}</ThemedText.BodySecondary>
+          </Cell>
+        ),
+        cell: (feeTier) => (
+          <Cell justifyContent="flex-end" loading={loading} width={80} grow>
+            {feeTier.getValue?.()}
+          </Cell>
+        ),
+      }),
+      columnHelper.accessor((row) => row.balance, {
+        id: "balance",
+        header: () => (
+          <Cell justifyContent="flex-end" minWidth={120} grow>
+            <ThemedText.BodySecondary>{`Balance`}</ThemedText.BodySecondary>
+          </Cell>
+        ),
+        cell: (balance) => (
+          <Cell justifyContent="flex-end" loading={loading} minWidth={120} grow>
+            <ThemedText.BodyPrimary>
+              {balance.getValue?.()}
+            </ThemedText.BodyPrimary>
+          </Cell>
+        ),
+      }),
+      columnHelper.accessor((row) => row.myLiquidity, {
+        id: "myLiquidity",
+        header: () => (
+          <Cell justifyContent="flex-end" minWidth={120} grow>
+            <ThemedText.BodySecondary>
+              {`My liquidity`}
+            </ThemedText.BodySecondary>
+          </Cell>
+        ),
+        cell: (myLiquidity) => (
+          <Cell justifyContent="flex-end" loading={loading} minWidth={120} grow>
+            <ThemedText.BodyPrimary>
+              {myLiquidity.getValue?.()}
+            </ThemedText.BodyPrimary>
+          </Cell>
+        ),
+      }),
+      columnHelper.accessor((row) => row.pool, {
+        id: "withdraw",
+        header: () => <Cell minWidth={120} grow />,
+        cell: (pair) => (
+          <Cell minWidth={120} loading={loading} grow>
+            <ThemeButton
+              size={ButtonSize.medium}
+              emphasis={ButtonEmphasis.highSoft}
+            >
+              Withdraw
+            </ThemeButton>
+          </Cell>
+        ),
+      }),
+      columnHelper.accessor((row) => row.pool, {
+        id: "deposit",
+        header: () => <Cell minWidth={120} grow />,
+        cell: (pair) => (
+          <Cell minWidth={120} loading={loading} grow>
+            <ThemeButton
+              size={ButtonSize.medium}
+              emphasis={ButtonEmphasis.highSoft}
+            >
+              Deposit
+            </ThemeButton>
+          </Cell>
+        ),
+      }),
+    ];
+  }, []);
+
+  return <Table columns={columns} data={data} loading={loading} />;
 }
