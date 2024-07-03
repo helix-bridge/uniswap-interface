@@ -116,19 +116,19 @@ export const routes: RouteDefinition[] = [
   //     return args.browserRouterEnabled && args.hash ? <Navigate to={args.hash.replace('#', '')} replace /> : <Landing />
   //   },
   // }),
-  createRouteDefinition({
-    path: '/explore',
-    getTitle: getExploreTitle,
-    getDescription: getExploreDescription,
-    nestedPaths: [':tab', ':chainName', ':tab/:chainName'],
-    getElement: () => <RedirectExplore />,
-  }),
-  createRouteDefinition({
-    path: '/explore/tokens/:chainName/:tokenAddress',
-    getTitle: () => t('common.buyAndSell'),
-    getDescription: () => StaticTitlesAndDescriptions.TDPDescription,
-    getElement: () => <TokenDetails />,
-  }),
+  // createRouteDefinition({
+  //   path: '/explore',
+  //   getTitle: getExploreTitle,
+  //   getDescription: getExploreDescription,
+  //   nestedPaths: [':tab', ':chainName', ':tab/:chainName'],
+  //   getElement: () => <RedirectExplore />,
+  // }),
+  // createRouteDefinition({
+  //   path: '/explore/tokens/:chainName/:tokenAddress',
+  //   getTitle: () => t('common.buyAndSell'),
+  //   getDescription: () => StaticTitlesAndDescriptions.TDPDescription,
+  //   getElement: () => <TokenDetails />,
+  // }),
   // createRouteDefinition({
   //   path: '/tokens',
   //   getTitle: getExploreTitle,
@@ -147,16 +147,16 @@ export const routes: RouteDefinition[] = [
   //   getDescription: () => StaticTitlesAndDescriptions.TDPDescription,
   //   getElement: () => <RedirectExplore />,
   // }),
-  createRouteDefinition({
-    path: '/explore/pools/:chainName/:poolAddress',
-    getTitle: () => StaticTitlesAndDescriptions.DetailsPageBaseTitle,
-    getDescription: () => StaticTitlesAndDescriptions.PDPDescription,
-    getElement: () => (
-      <Suspense fallback={null}>
-        <PoolDetails />
-      </Suspense>
-    ),
-  }),
+  // createRouteDefinition({
+  //   path: '/explore/pools/:chainName/:poolAddress',
+  //   getTitle: () => StaticTitlesAndDescriptions.DetailsPageBaseTitle,
+  //   getDescription: () => StaticTitlesAndDescriptions.PDPDescription,
+  //   getElement: () => (
+  //     <Suspense fallback={null}>
+  //       <PoolDetails />
+  //     </Suspense>
+  //   ),
+  // }),
   // createRouteDefinition({
   //   path: '/vote/*',
   //   getTitle: () => t('title.voteOnGov'),

@@ -77,12 +77,12 @@ export const PageTabs = () => {
       <MenuItem href="/swap" isActive={pathname.startsWith('/swap')}>
         <Trans i18nKey="common.swap" />
       </MenuItem>
-      <MenuItem
+      {/* <MenuItem
         href={'/explore' + (chainName !== Chain.Ethereum ? `/${chainName.toLowerCase()}` : '')}
         isActive={pathname.startsWith('/explore')}
       >
         <Trans i18nKey="common.explore" />
-      </MenuItem>
+      </MenuItem> */}
       {!shouldDisableNFTRoutes && (
         <MenuItem dataTestId="nft-nav" href="/nfts" isActive={isNftPage}>
           <Trans i18nKey="common.nfts" />
