@@ -150,7 +150,7 @@ const LegacyNavbar = ({ blur }: { blur: boolean }) => {
               <PageTabs />
             </Row>
           </Box>
-          <Box
+          {/* <Box
             data-cy="center-search-container"
             className={styles.searchContainer}
             {...(isNavSearchInputVisible && {
@@ -158,7 +158,7 @@ const LegacyNavbar = ({ blur }: { blur: boolean }) => {
             })}
           >
             <SearchBar />
-          </Box>
+          </Box> */}
           <Box className={styles.rightSideContainer}>
             <Row gap="12">
               <Box
