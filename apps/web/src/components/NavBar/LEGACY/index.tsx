@@ -93,7 +93,7 @@ export const PageTabs = () => {
           <Trans i18nKey="common.pool" />
         </MenuItem>
       </Box>
-      <More />
+      {/* <More /> */}
     </>
   )
 }
