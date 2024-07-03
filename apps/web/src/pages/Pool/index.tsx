@@ -25,6 +25,7 @@ import { ProtocolVersion } from 'uniswap/src/data/graphql/uniswap-data-api/__gen
 import Trace from 'uniswap/src/features/telemetry/Trace'
 import CTACards from './CTACards'
 import { LoadingRows } from './styled'
+import { ChainAllPoolsTable } from 'components/Pools/PoolTable/PoolTable'
 
 const PageWrapper = styled(AutoColumn)`
   padding: 68px 8px 0px;
@@ -334,6 +335,7 @@ export default function Pool() {
             {/* <HideSmall>
               <CTACards />
             </HideSmall> */}
+            <ChainAllPoolsTable />
           </AutoColumn>
         </AutoColumn>
       </PageWrapper>
