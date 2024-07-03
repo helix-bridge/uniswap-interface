@@ -693,7 +693,7 @@ function PositionPageContent() {
       <>
         <Helmet>
           <title>
-            {t(`Manage {{quoteSymbol}}/{{baseSymbol}} pool liquidity on Uniswap`, {
+            {t(`Manage {{quoteSymbol}}/{{baseSymbol}} pool liquidity on HelixSwap`, {
               quoteSymbol: currencyQuote?.symbol,
               baseSymbol: currencyBase?.symbol,
             })}
