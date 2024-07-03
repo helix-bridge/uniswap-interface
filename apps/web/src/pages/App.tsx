@@ -28,7 +28,7 @@ export default function App() {
     if (searchParams.get('disableNFTs') === 'true') {
       setShouldDisableNFTRoutes(true)
     } else if (searchParams.get('disableNFTs') === 'false') {
-      setShouldDisableNFTRoutes(false)
+      // setShouldDisableNFTRoutes(false)
     }
   }, [searchParams, setShouldDisableNFTRoutes])
 
