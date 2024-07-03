@@ -194,7 +194,11 @@ export const routes: RouteDefinition[] = [
   //   getTitle: () => t('title.placeLimit'),
   // }),
   createRouteDefinition({
-    // path: '/swap',
+    path: '/swap',
+    getElement: () => <Swap />,
+    getTitle: () => StaticTitlesAndDescriptions.SwapTitle,
+  }),
+  createRouteDefinition({
     path: '/',
     getElement: () => <Swap />,
     getTitle: () => StaticTitlesAndDescriptions.SwapTitle,
