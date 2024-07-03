@@ -514,7 +514,7 @@ const BaseThemeButton = styled.button<BaseThemeButtonProps>`
     }
   }
   :disabled {
-    cursor: default;
+    cursor: not-allowed;
     opacity: 0.6;
   }
   :disabled:active,
