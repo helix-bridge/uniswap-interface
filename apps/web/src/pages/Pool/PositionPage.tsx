@@ -781,6 +781,7 @@ function PositionPageContent() {
                 style={{
                   height: '100%',
                   marginRight: 12,
+                  display: 'none'
                 }}
               >
                 {'result' in metadata ? (
