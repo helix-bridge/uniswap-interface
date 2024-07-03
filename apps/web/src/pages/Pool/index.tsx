@@ -264,7 +264,7 @@ export default function Pool() {
                 <ThemedText.LargeHeader>
                   <Trans i18nKey="pool.positions" />
                 </ThemedText.LargeHeader>
-                <PoolVersionMenu protocolVersion={ProtocolVersion.V3} />
+                {/* <PoolVersionMenu protocolVersion={ProtocolVersion.V3} /> */}
               </Row>
               <ButtonRow>
                 {networkSupportsV2 && (
