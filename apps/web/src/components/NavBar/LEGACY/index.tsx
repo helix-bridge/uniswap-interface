@@ -121,7 +121,7 @@ const LegacyNavbar = ({ blur }: { blur: boolean }) => {
     accountDrawer.close()
     navigate({
       pathname: '/',
-      search: '?intro=true',
+      // search: '?intro=true',
     })
   }, [account.isConnected, accountDrawer, navigate])
 
