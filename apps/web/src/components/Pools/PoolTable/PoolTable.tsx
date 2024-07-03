@@ -2,6 +2,8 @@ import { ApolloError } from '@apollo/client'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { InterfaceElementName } from '@uniswap/analytics-events'
 import { ChainId, Percent } from '@uniswap/sdk-core'
+import { BRC_BITLAYER_TESTNET, USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET, WBTC_BITLAYER_TESTNET } from '@uniswap/smart-order-router'
+import { FeeAmount, Pool, Position } from '@uniswap/v3-sdk'
 import { ButtonEmphasis, ButtonSize, ThemeButton } from 'components/Button'
 import { DoubleCurrencyAndChainLogo } from 'components/DoubleLogo'
 import Row from 'components/Row'
@@ -17,6 +19,9 @@ import { BIPS_BASE } from 'constants/misc'
 import { useUpdateManualOutage } from 'featureFlags/flags/outageBanner'
 import { PoolSortFields, TablePool, useTopPools } from 'graphql/data/pools/useTopPools'
 import { OrderDirection, getSupportedGraphQlChain, gqlToCurrency, unwrapToken } from 'graphql/data/util'
+import { useFilterPossiblyMaliciousPositions } from 'hooks/useFilterPossiblyMaliciousPositions'
+import { usePools } from 'hooks/usePools'
+import { useV3Positions } from 'hooks/useV3Positions'
 import { Trans } from 'i18n'
 import { useAtom } from 'jotai'
 import { atomWithReset, useAtomValue, useResetAtom, useUpdateAtom } from 'jotai/utils'
@@ -24,8 +29,10 @@ import { ReactElement, ReactNode, useCallback, useEffect, useMemo } from 'react'
 import { useSwapAndLimitContext } from 'state/swap/hooks'
 import styled from 'styled-components'
 import { ThemedText } from 'theme/components'
+import { PositionDetails } from 'types/position'
 import { ProtocolVersion, Token } from 'uniswap/src/data/graphql/uniswap-data-api/__generated__/types-and-hooks'
 import { NumberType, useFormatter } from 'utils/formatNumbers'
+import { unwrappedToken } from 'utils/unwrappedToken'
 import { useAccount } from 'wagmi'
 
 const HEADER_DESCRIPTIONS: Record<PoolSortFields, ReactNode | undefined> = {
@@ -400,33 +407,78 @@ export function PoolsTable({
   )
 }
 
-interface AllPoolTableValues {
-  index: number;
-  pool: string;
-  feeTier: number;
-  balance: number;
-  myLiquidity: number;
-}
-
 export function ChainAllPoolsTable() {
   const account = useAccount();
   const { chainId } = useSwapAndLimitContext();
 
-  return <AllPoolsTable loading={false} />;
+  const pools = usePools([
+    [
+      unwrappedToken(USDC_BITLAYER_TESTNET),
+      unwrappedToken(USDT_BITLAYER_TESTNET),
+      FeeAmount.LOW,
+    ],
+    [
+      unwrappedToken(USDC_BITLAYER_TESTNET),
+      unwrappedToken(WBTC_BITLAYER_TESTNET),
+      FeeAmount.LOW,
+    ],
+    [
+      unwrappedToken(USDC_BITLAYER_TESTNET),
+      unwrappedToken(BRC_BITLAYER_TESTNET),
+      FeeAmount.LOW,
+    ],
+  ]);
+  const { positions: userPositions, loading: userPositionsLoading } =
+    useV3Positions(account.address);
+  const filteredUserPositions = useFilterPossiblyMaliciousPositions(
+    userPositions ?? []
+  );
+  console.info(
+    "JayJay",
+    "USDC/USDT Pool:",
+    pools.at(0),
+    pools.at(0)?.[1]?.token0Price.toSignificant(),
+    pools.at(0)?.[1]?.token1Price.toSignificant(),
+    pools.at(0)?.[1]?.sqrtRatioX96.toString(),
+    "User Position:",
+    filteredUserPositions
+  );
+
+  return (
+    <AllPoolsTable
+      loading={userPositionsLoading}
+      pools={useMemo(
+        () => pools.filter((p) => p.at(1)).map((p) => p[1]) as Pool[],
+        [pools]
+      )}
+      positions={filteredUserPositions}
+    />
+  );
 }
 
-function AllPoolsTable({ loading }: { loading: boolean }) {
-  const data = new Array(10)
-    .fill(0)
-    .map((_, index) => ({
-      index,
-      pool: "USDC/USDT",
-      feeTier: 100,
-      balance: 20,
-      myLiquidity: 60,
-    }));
+interface AllPoolsTableValues {
+  index?: number;
+  pool?: Pool;
+  positions?: PositionDetails[];
+}
+
+function AllPoolsTable({
+  loading,
+  pools,
+  positions,
+}: {
+  loading: boolean;
+  pools: Pool[];
+  positions: PositionDetails[];
+}) {
+  const data = useMemo(
+    () => pools.map((pool, index) => ({ index, pool, positions })),
+    [pools, positions]
+  );
+  const { formatCurrencyAmount } = useFormatter();
+
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<AllPoolTableValues>();
+    const columnHelper = createColumnHelper<AllPoolsTableValues>();
     return [
       columnHelper.accessor((row) => row.index, {
         id: "index",
@@ -444,60 +496,105 @@ function AllPoolsTable({ loading }: { loading: boolean }) {
         ),
       }),
       columnHelper.accessor((row) => row.pool, {
-        id: "Pool",
+        id: "pool",
         header: () => (
-          <Cell justifyContent="flex-start" width={120} grow>
-            <ThemedText.BodySecondary>{`Fee tier`}</ThemedText.BodySecondary>
+          <Cell justifyContent="flex-start" width={180} grow>
+            <ThemedText.BodySecondary>{`Pool`}</ThemedText.BodySecondary>
           </Cell>
         ),
-        cell: (pool) => (
-          <Cell justifyContent="flex-start" loading={loading} width={120} grow>
-            {pool.getValue?.()}
-          </Cell>
-        ),
+        cell: (pool) => {
+          const poolValue = pool?.getValue?.()
+          return (
+            <Cell
+              justifyContent="flex-start"
+              loading={loading}
+              width={180}
+              grow
+            >
+              {poolValue ? <Row gap="sm">
+                <DoubleCurrencyAndChainLogo
+                  chainId={poolValue.chainId}
+                  currencies={[
+                    unwrappedToken(poolValue.token0),
+                    unwrappedToken(poolValue.token1),
+                  ]}
+                  size={28}
+                />
+                <NameText>
+                  {poolValue.token0.symbol}/{poolValue.token1.symbol}
+                </NameText>
+                <Badge>{poolValue.fee / BIPS_BASE}%</Badge>
+              </Row> : null}
+            </Cell>
+          );
+        },
       }),
-      columnHelper.accessor((row) => row.feeTier, {
-        id: "feeTier",
-        header: () => (
-          <Cell justifyContent="flex-end" width={80} grow>
-            <ThemedText.BodySecondary>{`Fee tier`}</ThemedText.BodySecondary>
-          </Cell>
-        ),
-        cell: (feeTier) => (
-          <Cell justifyContent="flex-end" loading={loading} width={80} grow>
-            {feeTier.getValue?.()}
-          </Cell>
-        ),
-      }),
-      columnHelper.accessor((row) => row.balance, {
-        id: "balance",
+      // columnHelper.accessor((row) => row.pool, {
+      //   id: "balance",
+      //   header: () => (
+      //     <Cell justifyContent="flex-end" width={120} grow>
+      //       <ThemedText.BodySecondary>{`Balance`}</ThemedText.BodySecondary>
+      //     </Cell>
+      //   ),
+      //   cell: (pool) => (
+      //     <Cell justifyContent="flex-end" loading={loading} width={120} grow>
+      //       {pool?.getValue?.()?.token0Price.toSignificant()}
+      //     </Cell>
+      //   ),
+      // }),
+      columnHelper.accessor((row) => row, {
+        id: "my-position",
         header: () => (
           <Cell justifyContent="flex-end" minWidth={120} grow>
-            <ThemedText.BodySecondary>{`Balance`}</ThemedText.BodySecondary>
+            <ThemedText.BodySecondary>{`My position`}</ThemedText.BodySecondary>
           </Cell>
         ),
-        cell: (balance) => (
-          <Cell justifyContent="flex-end" loading={loading} minWidth={120} grow>
-            <ThemedText.BodyPrimary>
-              {balance.getValue?.()}
-            </ThemedText.BodyPrimary>
-          </Cell>
-        ),
+        cell: (row) => {
+          const { pool = null, positions = [] } = row.getValue?.() ?? { pool: null, positions: [] };
+          const positionInPool = positions.find(
+            (p) =>
+              p.fee === pool?.fee &&
+              p.token0.toLowerCase() === pool.token0.address.toLowerCase() &&
+              p.token1.toLowerCase() === pool.token1.address.toLowerCase()
+          );
+          const position = pool && positionInPool
+            ? new Position({
+                pool,
+                liquidity: positionInPool.liquidity.toString(),
+                tickLower: positionInPool.tickLower,
+                tickUpper: positionInPool.tickUpper,
+              })
+            : undefined;
+
+          return (
+            <Cell
+              justifyContent="flex-end"
+              loading={loading}
+              minWidth={120}
+              grow
+            >
+              <ThemedText.BodyPrimary>
+                {position
+                  ? `${formatCurrencyAmount({
+                      amount: position.amount0,
+                    })} / ${formatCurrencyAmount({ amount: position.amount1 })}`
+                  : undefined}
+              </ThemedText.BodyPrimary>
+            </Cell>
+          );
+        },
       }),
-      columnHelper.accessor((row) => row.myLiquidity, {
-        id: "myLiquidity",
-        header: () => (
-          <Cell justifyContent="flex-end" minWidth={120} grow>
-            <ThemedText.BodySecondary>
-              {`My liquidity`}
-            </ThemedText.BodySecondary>
-          </Cell>
-        ),
-        cell: (myLiquidity) => (
-          <Cell justifyContent="flex-end" loading={loading} minWidth={120} grow>
-            <ThemedText.BodyPrimary>
-              {myLiquidity.getValue?.()}
-            </ThemedText.BodyPrimary>
+      columnHelper.accessor((row) => row.pool, {
+        id: "deposit",
+        header: () => <Cell minWidth={120} grow />,
+        cell: (pair) => (
+          <Cell minWidth={120} loading={loading} grow>
+            <ThemeButton
+              size={ButtonSize.medium}
+              emphasis={ButtonEmphasis.highSoft}
+            >
+              Deposit
+            </ThemeButton>
           </Cell>
         ),
       }),
@@ -511,20 +608,6 @@ function AllPoolsTable({ loading }: { loading: boolean }) {
               emphasis={ButtonEmphasis.highSoft}
             >
               Withdraw
-            </ThemeButton>
-          </Cell>
-        ),
-      }),
-      columnHelper.accessor((row) => row.pool, {
-        id: "deposit",
-        header: () => <Cell minWidth={120} grow />,
-        cell: (pair) => (
-          <Cell minWidth={120} loading={loading} grow>
-            <ThemeButton
-              size={ButtonSize.medium}
-              emphasis={ButtonEmphasis.highSoft}
-            >
-              Deposit
             </ThemeButton>
           </Cell>
         ),
