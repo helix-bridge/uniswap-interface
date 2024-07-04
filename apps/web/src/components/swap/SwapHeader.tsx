@@ -74,15 +74,15 @@ export default function SwapHeader({ compact, syncTabToUrl }: { compact: boolean
         >
           <Trans i18nKey="common.swap" />
         </SwapHeaderTabButton>
-        <SwapHeaderTabButton
+        {/* <SwapHeaderTabButton
           $isActive={currentTab === SwapTab.Limit}
           onClick={() => {
             onTabClick(SwapTab.Limit)
           }}
         >
           <Trans i18nKey="swap.limit" />
-        </SwapHeaderTabButton>
-        {!isIFramed() && (
+        </SwapHeaderTabButton> */}
+        {/* {!isIFramed() && (
           <SwapHeaderTabButton
             $isActive={currentTab === SwapTab.Send}
             onClick={() => {
@@ -91,8 +91,8 @@ export default function SwapHeader({ compact, syncTabToUrl }: { compact: boolean
           >
             <Trans i18nKey="common.send.button" />
           </SwapHeaderTabButton>
-        )}
-        <SwapBuyFiatButton triggerBuyFlow={triggerBuyFlow} setTriggerBuyFlow={setTriggerBuyFlow} />
+        )} */}
+        {/* <SwapBuyFiatButton triggerBuyFlow={triggerBuyFlow} setTriggerBuyFlow={setTriggerBuyFlow} /> */}
       </HeaderButtonContainer>
       {currentTab === SwapTab.Swap && (
         <RowFixed>
