@@ -37,9 +37,6 @@ jobs:
       - name: Install dependencies
         run: |
           yarn config set npmAuthToken ${{secrets.GITHUB_TOKEN}}
-          node ./fix-install.js 0
-          yarn install
-          node ./fix-install.js 1
           yarn install
           yarn config unset npmAuthToken
 
