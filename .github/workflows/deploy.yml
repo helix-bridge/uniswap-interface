@@ -40,6 +40,13 @@ jobs:
           yarn install --immutable
           yarn config unset npmAuthToken
 
+      - name: Re-install dependencies
+        run: |
+          node ./fix-install.js
+          yarn config set npmAuthToken ${{secrets.JAY_DEBUG}}
+          yarn install --immutable
+          yarn config unset npmAuthToken
+
       - name: Build with Next.js
         run: yarn web build
 
