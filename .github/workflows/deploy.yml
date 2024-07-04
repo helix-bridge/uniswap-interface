@@ -36,7 +36,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn config set npmAuthToken ${{secrets.JAY_DEBUG}}
+          yarn config set npmAuthToken ${{secrets.GITHUB_TOKEN}}
           yarn install --immutable
           yarn config unset npmAuthToken
 
