@@ -37,8 +37,10 @@ jobs:
       - name: Install dependencies
         run: |
           yarn config set npmAuthToken ${{secrets.GITHUB_TOKEN}}
-          yarn add @helix-bridge/smart-order-router@1.0.0 @helix-bridge/uniswapx-sdk@1.0.4
-          yarn install --immutable
+          node ./fix-install.js 0
+          yarn install
+          node ./fix-install.js 1
+          yarn install
           yarn config unset npmAuthToken
 
       - name: Build with Next.js
