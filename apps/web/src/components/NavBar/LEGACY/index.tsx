@@ -161,13 +161,13 @@ const LegacyNavbar = ({ blur }: { blur: boolean }) => {
           </Box> */}
           <Box className={styles.rightSideContainer}>
             <Row gap="12">
-              <Box
+              {/* <Box
                 data-cy="right-search-container"
                 position="relative"
                 display={isNavSearchInputVisible ? 'none' : { sm: 'flex' }}
               >
                 <SearchBar />
-              </Box>
+              </Box> */}
               {isNftPage && sellPageState !== ProfilePageStateType.LISTING && <Bag />}
               {hideChainSelector ? null : (
                 <Box display={{ sm: 'none', lg: 'flex' }}>
