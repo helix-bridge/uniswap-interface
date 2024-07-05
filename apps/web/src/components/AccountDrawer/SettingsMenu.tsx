@@ -93,7 +93,7 @@ export default function SettingsMenu({
             <ThemeToggle />
             <SmallBalanceToggle />
             <SpamToggle />
-            <AnalyticsToggle />
+            {/* <AnalyticsToggle /> */}
             <TestnetsToggle />
           </ToggleWrapper>
           {/* {!currencyConversionEnabled && (
