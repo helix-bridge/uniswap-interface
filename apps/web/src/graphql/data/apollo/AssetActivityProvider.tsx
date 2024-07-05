@@ -103,17 +103,17 @@ function useSubscribedActivities() {
 }
 
 export function useAssetActivity() {
-  const query = useAssetActivityQuery()
-  const { loading, data } = query
-  const fetchedActivities = data?.portfolios?.[0]?.assetActivities
-  const subscribedActivities = useSubscribedActivities()
+  // const query = useAssetActivityQuery()
+  // const { loading, data } = query
+  // const fetchedActivities = data?.portfolios?.[0]?.assetActivities
+  // const subscribedActivities = useSubscribedActivities()
 
-  const activities = useMemo(() => {
-    if (!fetchedActivities) {
-      return subscribedActivities
-    }
-    return [...subscribedActivities, ...fetchedActivities]
-  }, [subscribedActivities, fetchedActivities])
+  // const activities = useMemo(() => {
+  //   if (!fetchedActivities) {
+  //     return subscribedActivities
+  //   }
+  //   return [...subscribedActivities, ...fetchedActivities]
+  // }, [subscribedActivities, fetchedActivities])
 
-  return { activities, loading }
+  return { activities: [], loading: false }
 }
