@@ -152,7 +152,7 @@ export function useUserHasAvailableClaim(account: string | null | undefined): bo
   const distributorContract = useMerkleDistributorContract()
   const isClaimedResult = useSingleCallResult(distributorContract, 'isClaimed', [userClaimData?.index])
   // user is in blob and contract marks as unclaimed
-  return Boolean(userClaimData && !isClaimedResult.loading && isClaimedResult.result?.[0] === false)
+  return Boolean(userClaimData && !isClaimedResult.loading && isClaimedResult.result?.[0] === false) && false
 }
 
 export function useUserUnclaimedAmount(account: string | null | undefined): CurrencyAmount<Token> | undefined {
