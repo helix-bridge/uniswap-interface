@@ -13,7 +13,7 @@ import {
 export function useFeatureFlag(flag: FeatureFlags): boolean {
   const name = getFeatureFlagName(flag)
   const { value } = useGate(name)
-  return value
+  return flag !== FeatureFlags.MultipleRoutingOptions && value
 }
 
 export function useFeatureFlagWithExposureLoggingDisabled(flag: FeatureFlags): boolean {
