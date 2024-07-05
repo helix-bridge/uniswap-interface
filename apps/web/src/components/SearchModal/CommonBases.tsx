@@ -68,7 +68,7 @@ export default function CommonBases({
   const portfolioBalanceUsd = useTotalBalancesUsdForAnalytics()
 
   return bases.length > 0 ? (
-    <AutoRow gap="4px">
+    <AutoRow gap="4px" style={{ paddingTop: 10, paddingBottom: 10 }}>
       {bases.map((currencyInfo: CurrencyInfo) => {
         const currency = currencyInfo.currency
         const isSelected = selectedCurrency?.equals(currency)
