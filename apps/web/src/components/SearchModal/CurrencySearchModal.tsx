@@ -99,7 +99,7 @@ export default memo(function CurrencySearchModal({
       break
   }
   return (
-    <Modal isOpen={isOpen} onDismiss={onDismiss} height={modalHeight}>
+    <Modal isOpen={isOpen} onDismiss={onDismiss} /* height={modalHeight} */ >
       {content}
     </Modal>
   )
