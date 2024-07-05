@@ -7,6 +7,7 @@ import AvaxLogo from '../../assets/svg/avax_logo.svg'
 import BnbLogo from '../../assets/svg/bnb-logo.svg'
 import CeloLogo from '../../assets/svg/celo_logo.svg'
 import MaticLogo from '../../assets/svg/matic-token-icon.svg'
+import BTCLogo from '../../assets/svg/btc.svg'
 import { PORTAL_ETH_CELO, isCelo, nativeOnChain } from '../../constants/tokens'
 
 export function getNativeLogoURI(chainId: ChainId = ChainId.MAINNET): string {
@@ -21,6 +22,8 @@ export function getNativeLogoURI(chainId: ChainId = ChainId.MAINNET): string {
       return CeloLogo
     case ChainId.AVALANCHE:
       return AvaxLogo
+    case ChainId.BITLAYER_TESTNET:
+      return BTCLogo
     default:
       return EthereumLogo
   }
