@@ -180,7 +180,7 @@ export function CurrencySearch({
             </Text>
             <CloseIcon onClick={onDismiss} />
           </RowBetween>
-          <Row gap="4px">
+          {/* <Row gap="4px">
             <SearchInput
               type="text"
               id="token-search-input"
@@ -195,7 +195,7 @@ export function CurrencySearch({
             <ChainSelectorWrapper>
               <ChainSelector />
             </ChainSelectorWrapper>
-          </Row>
+          </Row> */}
           {showCommonBases && (
             <CommonBases
               chainId={chainId}
@@ -207,7 +207,7 @@ export function CurrencySearch({
           )}
         </PaddedColumn>
         <Separator />
-        {searchCurrency ? (
+        {/* {searchCurrency ? (
           <Column style={{ padding: '20px 0', height: '100%' }}>
             <CurrencyRow
               currency={searchCurrency}
@@ -256,7 +256,7 @@ export function CurrencySearch({
               <Trans i18nKey="common.noResults" />
             </ThemedText.DeprecatedMain>
           </Column>
-        )}
+        )} */}
       </Trace>
     </ContentWrapper>
   )
