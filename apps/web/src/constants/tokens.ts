@@ -1,5 +1,6 @@
 import { ChainId, Currency, NativeCurrency, Token, UNI_ADDRESSES, WETH9 } from '@uniswap/sdk-core'
 import invariant from 'tiny-invariant'
+import { getChain } from './chains'
 
 // eslint-disable-next-line no-restricted-syntax
 export const NATIVE_CHAIN_ID = 'NATIVE'
@@ -463,7 +464,8 @@ class ExtendedEther extends NativeCurrency {
   }
 
   protected constructor(chainId: number) {
-    super(chainId, 18, 'ETH', 'Ethereum')
+    const chain = getChain({ chainId })
+    super(chainId, 18, chain.nativeCurrency.symbol ?? 'ETH', chain.nativeCurrency.name ?? 'Ethereum')
   }
 
   private static _cachedExtendedEther: { [chainId: number]: NativeCurrency } = {}
