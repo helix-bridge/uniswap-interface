@@ -91,7 +91,7 @@ export default function SettingsMenu({
           </SectionTitle>
           <ToggleWrapper currencyConversionEnabled={currencyConversionEnabled}>
             <ThemeToggle />
-            <SmallBalanceToggle />
+            {/* <SmallBalanceToggle /> */}
             <SpamToggle />
             {/* <AnalyticsToggle /> */}
             <TestnetsToggle />
