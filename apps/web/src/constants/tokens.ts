@@ -365,6 +365,10 @@ export function isCelo(chainId: number): chainId is ChainId.CELO | ChainId.CELO_
   return chainId === ChainId.CELO_ALFAJORES || chainId === ChainId.CELO
 }
 
+export function isBitlayer(chainId: number): chainId is ChainId.BITLAYER_TESTNET {
+  return chainId === ChainId.BITLAYER_TESTNET
+}
+
 function getCeloNativeCurrency(chainId: number) {
   switch (chainId) {
     case ChainId.CELO_ALFAJORES:
