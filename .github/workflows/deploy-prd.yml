@@ -1,0 +1,52 @@
+name: Deploy staging
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  # Build job
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          registry-url: https://npm.pkg.github.com
+
+      - name: Install dependencies
+        run: |
+          yarn config set npmAuthToken ${{secrets.JAY_DEBUG}}
+          yarn install --immutable
+          yarn config unset npmAuthToken
+
+      - name: Re-install dependencies
+        run: |
+          node ./fix-install.js
+          yarn config set npmAuthToken ${{secrets.JAY_DEBUG}}
+          yarn install --immutable
+          yarn config unset npmAuthToken
+
+      - name: Build with Next.js
+        run: yarn web build
+
+      - uses: darwinia-network/devops/actions/smart-vercel@main
+        name: Deploy to Vercel
+        with:
+          vercel_token: ${{ secrets.VERCEL_TOKEN }}
+          vercel_group: itering
+          preview_output: true
+          project_name: uniswap-interface
+          dist_path: apps/web/build
+          prod_mode: true
+          script_run: false
+          enable_cache: true
+          enable_notify_slack: true
+          slack_channel: helix-ui
+          slack_webhook: ${{ secrets.SLACK_INCOMING_WEBHOOK_URL }}
+
