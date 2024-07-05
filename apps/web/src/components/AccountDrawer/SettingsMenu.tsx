@@ -96,7 +96,7 @@ export default function SettingsMenu({
             <AnalyticsToggle />
             <TestnetsToggle />
           </ToggleWrapper>
-          {!currencyConversionEnabled && (
+          {/* {!currencyConversionEnabled && (
             <>
               <SectionTitle data-testid="wallet-header">
                 <Trans i18nKey="common.language" />
@@ -120,7 +120,7 @@ export default function SettingsMenu({
                 testId="local-currency-settings-button"
               />
             </Column>
-          )}
+          )} */}
         </div>
         <GitVersionRow />
       </Container>
