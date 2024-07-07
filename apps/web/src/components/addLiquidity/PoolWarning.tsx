@@ -31,7 +31,7 @@ const IconContainer = styled.div`
 interface PoolWarningProps {
   title: ReactNode
   subtitle: ReactNode
-  link: string
+  link?: string
 }
 
 // TODO (WEB-4097): Replace with generic spore alert component, when available
@@ -51,11 +51,11 @@ export function PoolWarning({ title, subtitle, link }: PoolWarningProps) {
           <Text variant="body3" color="$neutral2">
             {subtitle}
           </Text>
-          <ExternalLink href={link}>
+          {!!link && <ExternalLink href={link}>
             <Text variant="buttonLabel4" color="$neutral1">
               <Trans i18nKey="common.learnMore.link" />
             </Text>
-          </ExternalLink>
+          </ExternalLink>}
         </StyledColumn>
       </Row>
     </Container>
