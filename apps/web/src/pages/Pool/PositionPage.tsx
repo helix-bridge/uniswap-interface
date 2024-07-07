@@ -691,14 +691,14 @@ function PositionPageContent() {
   ) : (
     <Trace logImpression page={InterfacePageName.POOL_PAGE}>
       <>
-        <Helmet>
+        {/* <Helmet>
           <title>
             {t(`Manage {{quoteSymbol}}/{{baseSymbol}} pool liquidity on HelixSwap`, {
               quoteSymbol: currencyQuote?.symbol,
               baseSymbol: currencyBase?.symbol,
             })}
           </title>
-        </Helmet>
+        </Helmet> */}
         <PageWrapper>
           <TransactionConfirmationModal
             isOpen={showConfirm}

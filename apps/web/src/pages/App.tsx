@@ -64,12 +64,13 @@ export default function App() {
           you can set it later in the page component itself, since react-helmet-async prefers the most recently rendered title.
         */}
         <Helmet>
-          <title>{staticTitle}</title>
-          {staticDescription && <meta name="description" content={staticDescription} />}
+          {/* <title>{`HelixSwap Interface`}</title> */}
+          {/* {staticDescription && <meta name="description" content={staticDescription} />}
           {staticDescription && <meta property="og:description" content={staticDescription} />}
           {metaTags.map((tag, index) => (
             <meta key={index} {...tag} />
-          ))}
+          ))} */}
+          <meta name="description" content={`HelixSwap Interface`} />
         </Helmet>
         <UserPropertyUpdater />
         <ResetPageScrollEffect />

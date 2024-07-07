@@ -636,7 +636,7 @@ function AddLiquidity() {
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>
           {t('pool.addLiquidity.seoTitle', {
             tokenPair:
@@ -646,7 +646,7 @@ function AddLiquidity() {
             chain: CHAIN_INFO[isSupportedChainId(account.chainId) ? account.chainId : ChainId.MAINNET].label,
           })}
         </title>
-      </Helmet>
+      </Helmet> */}
       <ScrollablePage>
         <TransactionConfirmationModal
           isOpen={showConfirm}
