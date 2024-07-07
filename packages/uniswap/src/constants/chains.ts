@@ -1021,7 +1021,7 @@ export const UNIVERSE_CHAIN_INFO = {
     id: UniverseChainId.BITLAYER_TESTNET,
     assetRepoNetworkName: undefined,
     backendChain: {
-      chain: BackendChainId.Ethereum as InterfaceGqlChain, // TODO
+      chain: BackendChainId.UnknownChain as InterfaceGqlChain, // TODO
       backendSupported: false,
       isSecondaryChain: false,
       nativeTokenBackendAddress: undefined,
