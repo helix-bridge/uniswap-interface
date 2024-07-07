@@ -9,7 +9,7 @@ import CeloLogo from '../../assets/svg/celo_logo.svg'
 import MaticLogo from '../../assets/svg/matic-token-icon.svg'
 import BRCLogo from '../../assets/svg/brc.svg'
 import BTCLogo from '../../assets/svg/btc.svg'
-import WBTCLogo from '../../assets/svg/wbtc.svg'
+import WBTCLogo from '../../assets/images/wbtc.png'
 import { PORTAL_ETH_CELO, isBitlayer, isCelo, nativeOnChain } from '../../constants/tokens'
 import { BRC_BITLAYER_TESTNET, USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET, WBTC_BITLAYER_TESTNET } from '@uniswap/smart-order-router'
 
