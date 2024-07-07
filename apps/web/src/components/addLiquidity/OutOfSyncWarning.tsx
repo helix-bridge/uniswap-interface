@@ -7,7 +7,7 @@ export function OutOfSyncWarning() {
     <PoolWarning
       title={<Trans i18nKey="pool.liquidity.outOfSync" />}
       subtitle={<Trans i18nKey="pool.liquidity.outOfSync.message" />}
-      link={SupportArticleURL.IMPERMANENT_LOSS}
+      // link={SupportArticleURL.IMPERMANENT_LOSS}
     />
   )
 }
