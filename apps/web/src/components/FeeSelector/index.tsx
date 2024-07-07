@@ -181,13 +181,13 @@ export default function FeeSelector({
               )}
             </AutoColumn>
 
-            <ButtonGray onClick={() => setShowOptions(!showOptions)} width="auto" padding="4px" $borderRadius="6px">
+            {/* <ButtonGray onClick={() => setShowOptions(!showOptions)} width="auto" padding="4px" $borderRadius="6px">
               {showOptions ? <Trans i18nKey="common.hide.button" /> : <Trans i18nKey="common.edit.button" />}
-            </ButtonGray>
+            </ButtonGray> */}
           </RowBetween>
         </FocusedOutlineCard>
 
-        {chainId && showOptions && (
+        {/* {chainId && showOptions && (
           <Select>
             {[FeeAmount.LOWEST, FeeAmount.LOW, FeeAmount.MEDIUM, FeeAmount.HIGH].map((_feeAmount, i) => {
               const { supportedChains } = FEE_AMOUNT_DETAIL[_feeAmount]
@@ -206,7 +206,7 @@ export default function FeeSelector({
               return null
             })}
           </Select>
-        )}
+        )} */}
       </DynamicSection>
     </AutoColumn>
   )

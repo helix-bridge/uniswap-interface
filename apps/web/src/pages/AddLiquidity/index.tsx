@@ -131,10 +131,11 @@ function AddLiquidity() {
   const { position: existingPosition } = useDerivedPositionInfo(existingPositionDetails)
 
   // fee selection from url
-  const feeAmount: FeeAmount | undefined =
-    feeAmountFromUrl && Object.values(FeeAmount).includes(parseFloat(feeAmountFromUrl))
-      ? parseFloat(feeAmountFromUrl)
-      : undefined
+  // const feeAmount: FeeAmount | undefined =
+  //   feeAmountFromUrl && Object.values(FeeAmount).includes(parseFloat(feeAmountFromUrl))
+  //     ? parseFloat(feeAmountFromUrl)
+  //     : undefined
+  const feeAmount = FeeAmount.LOW
 
   const baseCurrency = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
