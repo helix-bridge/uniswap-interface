@@ -39,6 +39,7 @@ jobs:
           vercel_token: ${{ secrets.VERCEL_TOKEN }}
           vercel_group: itering
           preview_output: true
+          alias_domain: "helixswap-dev"
           project_name: uniswap-interface
           dist_path: apps/web/build
           script_run: false
