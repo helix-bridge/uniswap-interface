@@ -20,7 +20,7 @@ const useTargetLocale = (activeLocale: SupportedLocale) => {
   return null
 }
 
-export function SwitchLocaleLink() {
+export function SwitchLocaleLink_Backup() {
   const activeLocale = useActiveLocale()
   const targetLocale = useTargetLocale(activeLocale)
   const [, setUserLocale] = useUserLocaleManager()
@@ -45,4 +45,8 @@ export function SwitchLocaleLink() {
       </StyledInternalLink>
     </Text>
   )
+}
+
+export function SwitchLocaleLink() {
+  return null
 }
