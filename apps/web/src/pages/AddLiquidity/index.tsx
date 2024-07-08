@@ -369,12 +369,13 @@ function AddLiquidity() {
         // prevent weth + eth
         const isETHOrWETHNew =
           currencyIdNew === 'ETH' ||
+          currencyIdNew === 'BTC' ||
           (account.status === 'connected' &&
             account.chainId &&
             currencyIdNew === WRAPPED_NATIVE_CURRENCY[account.chainId]?.address)
         const isETHOrWETHOther =
           currencyIdOther !== undefined &&
-          (currencyIdOther === 'ETH' ||
+          (currencyIdOther === 'ETH' || currencyIdOther === 'BTC' ||
             (account.status === 'connected' &&
               account.chainId &&
               currencyIdOther === WRAPPED_NATIVE_CURRENCY[account.chainId]?.address))
