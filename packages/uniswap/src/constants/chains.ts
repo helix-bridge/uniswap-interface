@@ -1052,7 +1052,7 @@ export const UNIVERSE_CHAIN_INFO = {
     },
     networkLayer: NetworkLayer.L2,
     pendingTransactionsRetryOptions: undefined,
-    spotPriceStablecoinAmount: CurrencyAmount.fromRawAmount(USDC_BITLAYER_TESTNET, 1_000e18),
+    spotPriceStablecoinAmount: CurrencyAmount.fromRawAmount(USDC_BITLAYER_TESTNET, 10e18),
     stablecoins: [USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET],
     statusPage: undefined,
     supportsClientSideRouting: true,
