@@ -878,7 +878,7 @@ function AddLiquidity() {
                       </>
                     ) : (
                       <AutoColumn gap="md">
-                        {noLiquidity && (
+                        {noLiquidity ? (
                           <BlueCard
                             style={{
                               display: 'flex',
@@ -896,90 +896,97 @@ function AddLiquidity() {
                               <Trans i18nKey="pool.mustBeInitialized" />
                             </ThemedText.DeprecatedBody>
                           </BlueCard>
-                        )}
-                        <OutlineCard padding="12px">
-                          <StyledInput
-                            className="start-price-input"
-                            value={startPriceTypedValue}
-                            onUserInput={onStartPriceInput}
-                          />
-                        </OutlineCard>
-                        <RowBetween
-                          style={{
-                            backgroundColor: theme.surface1,
-                            padding: '12px',
-                            borderRadius: '12px',
-                          }}
-                        >
-                          <ThemedText.DeprecatedMain>
-                            <Trans i18nKey="pool.startingPrice" values={{ sym: baseCurrency?.symbol }} />
-                          </ThemedText.DeprecatedMain>
-                          <ThemedText.DeprecatedMain>
-                            {price ? (
+                        ) : (
+                          <>
+                            <OutlineCard padding="12px">
+                              <StyledInput
+                                className="start-price-input"
+                                value={startPriceTypedValue}
+                                onUserInput={onStartPriceInput}
+                              />
+                            </OutlineCard>
+                            <RowBetween
+                              style={{
+                                backgroundColor: theme.surface1,
+                                padding: '12px',
+                                borderRadius: '12px',
+                              }}
+                            >
                               <ThemedText.DeprecatedMain>
-                                <RowFixed>
-                                  <HoverInlineText
-                                    maxCharacters={20}
-                                    text={invertPrice ? price?.invert()?.toSignificant(8) : price?.toSignificant(8)}
-                                  />{' '}
-                                  <span style={{ marginLeft: '4px' }}>
-                                    <Trans
-                                      i18nKey="common.feesEarnedPerBase"
-                                      values={{ symbolA: quoteCurrency?.symbol, symbolB: baseCurrency?.symbol }}
-                                    />
-                                  </span>
-                                </RowFixed>
+                                <Trans i18nKey="pool.startingPrice" values={{ sym: baseCurrency?.symbol }} />
                               </ThemedText.DeprecatedMain>
-                            ) : (
-                              '-'
-                            )}
-                          </ThemedText.DeprecatedMain>
-                        </RowBetween>
+                              <ThemedText.DeprecatedMain>
+                                {price ? (
+                                  <ThemedText.DeprecatedMain>
+                                    <RowFixed>
+                                      <HoverInlineText
+                                        maxCharacters={20}
+                                        text={invertPrice ? price?.invert()?.toSignificant(8) : price?.toSignificant(8)}
+                                      />{' '}
+                                      <span style={{ marginLeft: '4px' }}>
+                                        <Trans
+                                          i18nKey="common.feesEarnedPerBase"
+                                          values={{ symbolA: quoteCurrency?.symbol, symbolB: baseCurrency?.symbol }}
+                                        />
+                                      </span>
+                                    </RowFixed>
+                                  </ThemedText.DeprecatedMain>
+                                ) : (
+                                  '-'
+                                )}
+                              </ThemedText.DeprecatedMain>
+                            </RowBetween>
+                          </>
+                        )}
                       </AutoColumn>
                     )}
                   </DynamicSection>
                 </>
               )}
-              <div>
-                <DynamicSection disabled={invalidPool || invalidRange || (noLiquidity && !startPriceTypedValue)}>
-                  <AutoColumn gap="md">
-                    <ThemedText.DeprecatedLabel>
-                      {hasExistingPosition ? (
-                        <Trans i18nKey="pool.addMoreLiquidity" />
-                      ) : (
-                        <Trans i18nKey="pool.depositAmounts" />
-                      )}
-                    </ThemedText.DeprecatedLabel>
+              {!noLiquidity && (
+                <>
+                  <div>
+                    <DynamicSection disabled={invalidPool || invalidRange || (noLiquidity && !startPriceTypedValue)}>
+                      <AutoColumn gap="md">
+                        <ThemedText.DeprecatedLabel>
+                          {hasExistingPosition ? (
+                            <Trans i18nKey="pool.addMoreLiquidity" />
+                          ) : (
+                            <Trans i18nKey="pool.depositAmounts" />
+                          )}
+                        </ThemedText.DeprecatedLabel>
 
-                    <CurrencyInputPanel
-                      value={formattedAmounts[Field.CURRENCY_A]}
-                      onUserInput={onFieldAInput}
-                      onMax={() => {
-                        onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
-                      }}
-                      showMaxButton={!atMaxAmounts[Field.CURRENCY_A]}
-                      currency={currencies[Field.CURRENCY_A] ?? null}
-                      id="add-liquidity-input-tokena"
-                      fiatValue={currencyAFiat}
-                      locked={depositADisabled}
-                    />
+                        <CurrencyInputPanel
+                          value={formattedAmounts[Field.CURRENCY_A]}
+                          onUserInput={onFieldAInput}
+                          onMax={() => {
+                            onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+                          }}
+                          showMaxButton={!atMaxAmounts[Field.CURRENCY_A]}
+                          currency={currencies[Field.CURRENCY_A] ?? null}
+                          id="add-liquidity-input-tokena"
+                          fiatValue={currencyAFiat}
+                          locked={depositADisabled}
+                        />
 
-                    <CurrencyInputPanel
-                      value={formattedAmounts[Field.CURRENCY_B]}
-                      onUserInput={onFieldBInput}
-                      onMax={() => {
-                        onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
-                      }}
-                      showMaxButton={!atMaxAmounts[Field.CURRENCY_B]}
-                      fiatValue={currencyBFiat}
-                      currency={currencies[Field.CURRENCY_B] ?? null}
-                      id="add-liquidity-input-tokenb"
-                      locked={depositBDisabled}
-                    />
-                  </AutoColumn>
-                </DynamicSection>
-              </div>
-              <Buttons />
+                        <CurrencyInputPanel
+                          value={formattedAmounts[Field.CURRENCY_B]}
+                          onUserInput={onFieldBInput}
+                          onMax={() => {
+                            onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+                          }}
+                          showMaxButton={!atMaxAmounts[Field.CURRENCY_B]}
+                          fiatValue={currencyBFiat}
+                          currency={currencies[Field.CURRENCY_B] ?? null}
+                          id="add-liquidity-input-tokenb"
+                          locked={depositBDisabled}
+                        />
+                      </AutoColumn>
+                    </DynamicSection>
+                  </div>
+                  <Buttons />
+                </>
+              )}
             </ResponsiveTwoColumns>
           </Wrapper>
         </StyledBodyWrapper>
