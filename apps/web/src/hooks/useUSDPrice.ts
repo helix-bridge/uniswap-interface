@@ -17,10 +17,21 @@ import { getNativeTokenDBAddress } from 'utils/nativeTokens'
 import useIsWindowVisible from './useIsWindowVisible'
 import useStablecoinPrice from './useStablecoinPrice'
 
+function getEthAmountOutRaw(chainId: SupportedInterfaceChainId) {
+  switch (chainId) {
+    case ChainId.MAINNET:
+      return 50e18
+    case ChainId.BITLAYER_TESTNET:
+      return 10_000
+    default:
+      return 10e18
+  }
+}
+
 // ETH amounts used when calculating spot price for a given currency.
 // The amount is large enough to filter low liquidity pairs.
 function getEthAmountOut(chainId: SupportedInterfaceChainId): CurrencyAmount<Currency> {
-  return CurrencyAmount.fromRawAmount(nativeOnChain(chainId), chainId === ChainId.MAINNET ? 50e18 : 10e18)
+  return CurrencyAmount.fromRawAmount(nativeOnChain(chainId), getEthAmountOutRaw(chainId))
 }
 
 function useETHPrice(currency?: Currency): {
