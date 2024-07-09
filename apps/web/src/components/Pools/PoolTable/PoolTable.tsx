@@ -429,6 +429,11 @@ export function ChainAllPoolsTable() {
       unwrappedToken(BRC_BITLAYER_TESTNET),
       FeeAmount.LOW,
     ],
+    [
+      unwrappedToken(USDT_BITLAYER_TESTNET),
+      unwrappedToken(WBTC_BITLAYER_TESTNET),
+      FeeAmount.LOW,
+    ],
   ]);
   const { positions: userPositions, loading: userPositionsLoading } =
     useV3Positions(account.address);
