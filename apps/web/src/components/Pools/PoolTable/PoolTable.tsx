@@ -1,7 +1,7 @@
 import { ApolloError } from '@apollo/client'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { InterfaceElementName } from '@uniswap/analytics-events'
-import { ChainId, Percent } from '@uniswap/sdk-core'
+import { ChainId, CurrencyAmount, Percent, Token as CoreToken } from '@uniswap/sdk-core'
 import { BRC_BITLAYER_TESTNET, USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET, WBTC_BITLAYER_TESTNET } from '@uniswap/smart-order-router'
 import { FeeAmount, Pool, Position } from '@uniswap/v3-sdk'
 import { ButtonEmphasis, ButtonSize, ThemeButton } from 'components/Button'
@@ -436,7 +436,7 @@ export function ChainAllPoolsTable() {
     ],
   ]);
   const { positions: userPositions, loading: userPositionsLoading } =
-    useV3Positions(account.address);
+    useV3Positions(account?.address);
   const filteredUserPositions = useFilterPossiblyMaliciousPositions(
     userPositions ?? []
   );
@@ -550,25 +550,14 @@ function AllPoolsTable({
           </Cell>
         ),
         cell: (row) => {
-          const { pool = null, positions = [] } = row.getValue?.() ?? {
-            pool: null,
-            positions: [],
-          };
-          const positionInPool = positions.find(
+          const { pool = null, positions = [] } = row.getValue?.() ?? { pool: null, positions: [] };
+          const positionsInPool = pool ? positions.filter(
             (p) =>
-              p.fee === pool?.fee &&
+              p.liquidity.gt(0) &&
+              p.fee === pool.fee &&
               p.token0.toLowerCase() === pool.token0.address.toLowerCase() &&
               p.token1.toLowerCase() === pool.token1.address.toLowerCase()
-          );
-          const position =
-            pool && positionInPool
-              ? new Position({
-                  pool,
-                  liquidity: positionInPool.liquidity.toString(),
-                  tickLower: positionInPool.tickLower,
-                  tickUpper: positionInPool.tickUpper,
-                })
-              : undefined;
+          ).map((p) => (new Position({ pool, liquidity: p.liquidity.toString(), tickLower: p.tickLower, tickUpper: p.tickUpper }))) : [];
 
           return (
             <Cell
@@ -578,10 +567,20 @@ function AllPoolsTable({
               grow
             >
               <ThemedText.BodyPrimary>
-                {position
+                {positionsInPool.length
                   ? `${formatCurrencyAmount({
-                      amount: position.amount0,
-                    })} / ${formatCurrencyAmount({ amount: position.amount1 })}`
+                      amount: positionsInPool.reduce(
+                        (acc, cur) =>
+                          acc ? acc.add(cur.amount0) : cur.amount0,
+                        null as null | CurrencyAmount<CoreToken>
+                      ),
+                    })} / ${formatCurrencyAmount({
+                      amount: positionsInPool.reduce(
+                        (acc, cur) =>
+                          acc ? acc.add(cur.amount1) : cur.amount1,
+                        null as null | CurrencyAmount<CoreToken>
+                      ),
+                    })}`
                   : undefined}
               </ThemedText.BodyPrimary>
             </Cell>
@@ -596,27 +595,28 @@ function AllPoolsTable({
             pool: null,
             positions: [],
           };
-          const positionInPool = positions.find(
+          const positionsInPool = pool ? positions.filter(
             (p) =>
-              p.fee === pool?.fee &&
+              p.liquidity.gt(0) &&
+              p.fee === pool.fee &&
               p.token0.toLowerCase() === pool.token0.address.toLowerCase() &&
               p.token1.toLowerCase() === pool.token1.address.toLowerCase()
-          );
+          ) : [];
           return (
             <Cell minWidth={120} loading={loading} grow>
               <ThemeButton
                 size={ButtonSize.medium}
                 emphasis={ButtonEmphasis.highSoft}
-                disabled={!positionInPool}
+                disabled={!positionsInPool.length}
                 onClick={() => {
-                  positionInPool &&
+                  positionsInPool.length &&
                     pool &&
                     navigate(
                       `/add/${currencyId(
                         unwrappedToken(pool.token0)
                       )}/${currencyId(unwrappedToken(pool.token1))}/${
                         pool.fee
-                      }/${positionInPool.tokenId}`
+                      }/${positionsInPool[0].tokenId}`
                     );
                 }}
               >
@@ -634,22 +634,22 @@ function AllPoolsTable({
             pool: null,
             positions: [],
           };
-          const positionInPool = positions.find(
+          const positionsInPool = pool ? positions.filter(
             (p) =>
-              p.fee === pool?.fee &&
+              p.liquidity.gt(0) &&
+              p.fee === pool.fee &&
               p.token0.toLowerCase() === pool.token0.address.toLowerCase() &&
               p.token1.toLowerCase() === pool.token1.address.toLowerCase()
-          );
-
+          ) : [];
           return (
             <Cell minWidth={120} loading={loading} grow>
               <ThemeButton
                 size={ButtonSize.medium}
                 emphasis={ButtonEmphasis.highSoft}
-                disabled={!positionInPool || positionInPool.liquidity.eq(0)}
+                disabled={!positionsInPool.length}
                 onClick={() => {
-                  positionInPool &&
-                    navigate(`/remove/${positionInPool.tokenId}`);
+                  positionsInPool.length &&
+                    navigate(`/remove/${positionsInPool[0].tokenId}`);
                 }}
               >
                 Withdraw
