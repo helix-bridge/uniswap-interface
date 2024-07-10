@@ -1,5 +1,6 @@
 /* eslint-disable rulesdir/no-undefined-or */
 import { ChainId, Currency, V2_ROUTER_ADDRESSES } from '@uniswap/sdk-core'
+import { isChainSupportedByHelixSwap } from '@uniswap/smart-order-router'
 import ms from 'ms'
 import { useCallback, useMemo } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
@@ -33,7 +34,7 @@ export const SUPPORTED_INTERFACE_CHAIN_IDS = [
 ] as const
 
 export function isSupportedChainId(chainId?: number | ChainId | null): chainId is SupportedInterfaceChainId {
-  return !!chainId && SUPPORTED_INTERFACE_CHAIN_IDS.includes(chainId as SupportedInterfaceChainId)
+  return !!chainId && SUPPORTED_INTERFACE_CHAIN_IDS.filter(isChainSupportedByHelixSwap).includes(chainId as SupportedInterfaceChainId)
 }
 
 // Used to feature flag chains. If a chain is not included in the object, it is considered enabled by default.
@@ -72,7 +73,7 @@ export function useIsSupportedChainIdCallback() {
 
 export function useSupportedChainId(chainId?: number): SupportedInterfaceChainId | undefined {
   const featureFlaggedChains = useFeatureFlaggedChainIds()
-  if (!chainId || SUPPORTED_INTERFACE_CHAIN_IDS.indexOf(chainId) === -1) {
+  if (!chainId || SUPPORTED_INTERFACE_CHAIN_IDS.filter(isChainSupportedByHelixSwap).indexOf(chainId) === -1) {
     return
   }
 
