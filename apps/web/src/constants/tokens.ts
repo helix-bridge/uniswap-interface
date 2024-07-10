@@ -1,5 +1,6 @@
 import { ChainId, Currency, NativeCurrency, Token, UNI_ADDRESSES, WETH9 } from '@uniswap/sdk-core'
 import invariant from 'tiny-invariant'
+import { getChain } from './chains'
 
 // eslint-disable-next-line no-restricted-syntax
 export const NATIVE_CHAIN_ID = 'NATIVE'
@@ -217,6 +218,21 @@ export const BTC_BSC = new Token(ChainId.BNB, '0x7130d2A12B9BCbFAe4f2634d864A1Ee
 export const BUSD_BSC = new Token(ChainId.BNB, '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18, 'BUSD', 'BUSD')
 export const DAI_BSC = new Token(ChainId.BNB, '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3', 18, 'DAI', 'DAI')
 
+export const USDC_BITLAYER_TESTNET = new Token(
+  ChainId.BITLAYER_TESTNET,
+  '0x209ba92b5Cc962673a30998ED7A223109D0BE5e8',
+  18,
+  'USDC',
+  'USDC'
+)
+export const USDT_BITLAYER_TESTNET = new Token(
+  ChainId.BITLAYER_TESTNET,
+  '0xab40Fe1DaE842B209599269B8DafB0c54a743438',
+  18,
+  'USDT',
+  'USDT'
+)
+
 export const USDC_AVALANCHE = new Token(
   ChainId.AVALANCHE,
   '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
@@ -349,6 +365,10 @@ export function isCelo(chainId: number): chainId is ChainId.CELO | ChainId.CELO_
   return chainId === ChainId.CELO_ALFAJORES || chainId === ChainId.CELO
 }
 
+export function isBitlayer(chainId: number): chainId is ChainId.BITLAYER_TESTNET {
+  return chainId === ChainId.BITLAYER_TESTNET
+}
+
 function getCeloNativeCurrency(chainId: number) {
   switch (chainId) {
     case ChainId.CELO_ALFAJORES:
@@ -448,7 +468,8 @@ class ExtendedEther extends NativeCurrency {
   }
 
   protected constructor(chainId: number) {
-    super(chainId, 18, 'ETH', 'Ethereum')
+    const chain = getChain({ chainId })
+    super(chainId, 18, chain.nativeCurrency.symbol ?? 'ETH', chain.nativeCurrency.name ?? 'Ethereum')
   }
 
   private static _cachedExtendedEther: { [chainId: number]: NativeCurrency } = {}

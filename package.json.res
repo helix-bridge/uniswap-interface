@@ -40,6 +40,13 @@
     "immer": "this fixes yarn typecheck in mobile app, see https://github.com/reduxjs/redux-toolkit/issues/1806"
   },
   "resolutions": {
+    "@uniswap/v2-sdk": "portal:node_modules/@helix-bridge/v2-sdk",
+    "@uniswap/v3-sdk": "portal:node_modules/@helix-bridge/v3-sdk",
+    "@uniswap/router-sdk": "portal:node_modules/@helix-bridge/router-sdk",
+    "@uniswap/uniswapx-sdk": "portal:node_modules/@helix-bridge/uniswapx-sdk",
+    "@uniswap/sdk-core": "portal:node_modules/@helix-bridge/sdk-core",
+    "@uniswap/universal-router-sdk": "portal:node_modules/@helix-bridge/universal-router-sdk",
+    "@uniswap/smart-order-router": "portal:node_modules/@helix-bridge/smart-order-router",
     "cypress": "13.7.3",
     "@babel/preset-env": "7.23.3",
     "immer": "9.0.21",

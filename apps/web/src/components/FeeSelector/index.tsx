@@ -65,7 +65,7 @@ export default function FeeSelector({
   const trace = useTrace()
   const { formatDelta } = useFormatter()
 
-  const { isLoading, isError, largestUsageFeeTier, distributions } = useFeeTierDistribution(currencyA, currencyB)
+  // const { isLoading, isError, largestUsageFeeTier, distributions } = useFeeTierDistribution(currencyA, currencyB)
 
   // get pool data on-chain for latest states
   const pools = usePools([
@@ -114,30 +114,30 @@ export default function FeeSelector({
     [handleFeePoolSelect, trace]
   )
 
-  useEffect(() => {
-    if (feeAmount || isLoading || isError) {
-      return
-    }
+  // useEffect(() => {
+  //   if (feeAmount || isLoading || isError) {
+  //     return
+  //   }
 
-    if (!largestUsageFeeTier) {
-      // cannot recommend, open options
-      setShowOptions(true)
-    } else {
-      setShowOptions(false)
+  //   if (!largestUsageFeeTier) {
+  //     // cannot recommend, open options
+  //     setShowOptions(true)
+  //   } else {
+  //     setShowOptions(false)
 
-      recommended.current = true
-      sendAnalyticsEvent(LiquidityEventName.SELECT_LIQUIDITY_POOL_FEE_TIER, {
-        action: FeePoolSelectAction.RECOMMENDED,
-        ...trace,
-      })
+  //     recommended.current = true
+  //     sendAnalyticsEvent(LiquidityEventName.SELECT_LIQUIDITY_POOL_FEE_TIER, {
+  //       action: FeePoolSelectAction.RECOMMENDED,
+  //       ...trace,
+  //     })
 
-      handleFeePoolSelect(largestUsageFeeTier)
-    }
-  }, [feeAmount, isLoading, isError, largestUsageFeeTier, handleFeePoolSelect, trace])
+  //     handleFeePoolSelect(largestUsageFeeTier)
+  //   }
+  // }, [feeAmount, isLoading, isError, largestUsageFeeTier, handleFeePoolSelect, trace])
 
-  useEffect(() => {
-    setShowOptions(isError)
-  }, [isError])
+  // useEffect(() => {
+  //   setShowOptions(isError)
+  // }, [isError])
 
   useEffect(() => {
     if (feeAmount && previousFeeAmount !== feeAmount) {
@@ -168,7 +168,7 @@ export default function FeeSelector({
                       values={{ fee: formatDelta(parseFloat(FEE_AMOUNT_DETAIL[feeAmount].label)) }}
                     />
                   </ThemedText.DeprecatedLabel>
-                  {distributions && (
+                  {/* {distributions && (
                     <Box style={{ width: 'fit-content', marginTop: '8px' }} className="selected-fee-percentage">
                       <FeeTierPercentageBadge
                         distributions={distributions}
@@ -176,18 +176,18 @@ export default function FeeSelector({
                         poolState={poolsByFeeTier[feeAmount]}
                       />
                     </Box>
-                  )}
+                  )} */}
                 </>
               )}
             </AutoColumn>
 
-            <ButtonGray onClick={() => setShowOptions(!showOptions)} width="auto" padding="4px" $borderRadius="6px">
+            {/* <ButtonGray onClick={() => setShowOptions(!showOptions)} width="auto" padding="4px" $borderRadius="6px">
               {showOptions ? <Trans i18nKey="common.hide.button" /> : <Trans i18nKey="common.edit.button" />}
-            </ButtonGray>
+            </ButtonGray> */}
           </RowBetween>
         </FocusedOutlineCard>
 
-        {chainId && showOptions && (
+        {/* {chainId && showOptions && (
           <Select>
             {[FeeAmount.LOWEST, FeeAmount.LOW, FeeAmount.MEDIUM, FeeAmount.HIGH].map((_feeAmount, i) => {
               const { supportedChains } = FEE_AMOUNT_DETAIL[_feeAmount]
@@ -206,7 +206,7 @@ export default function FeeSelector({
               return null
             })}
           </Select>
-        )}
+        )} */}
       </DynamicSection>
     </AutoColumn>
   )

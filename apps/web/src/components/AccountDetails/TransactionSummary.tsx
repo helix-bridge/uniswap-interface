@@ -32,7 +32,45 @@ function formatAmount(amountRaw: string, decimals: number, sigFigs: number): str
   return new Fraction(amountRaw, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimals))).toSignificant(sigFigs)
 }
 
-function FormattedCurrencyAmount({
+// function FormattedCurrencyAmount({
+//   rawAmount,
+//   symbol,
+//   decimals,
+//   sigFigs,
+// }: {
+//   rawAmount: string
+//   symbol: string
+//   decimals: number
+//   sigFigs: number
+// }) {
+//   return (
+//     <>
+//       {formatAmount(rawAmount, decimals, sigFigs)} {symbol}
+//     </>
+//   )
+// }
+
+// function FormattedCurrencyAmountManaged({
+//   rawAmount,
+//   currencyId,
+//   sigFigs = 6,
+// }: {
+//   rawAmount: string
+//   currencyId: string
+//   sigFigs: number
+// }) {
+//   const currency = useCurrency(currencyId)
+//   return currency ? (
+//     <FormattedCurrencyAmount
+//       rawAmount={rawAmount}
+//       decimals={currency.decimals}
+//       sigFigs={sigFigs}
+//       symbol={currency.symbol ?? '???'}
+//     />
+//   ) : null
+// }
+
+function useFormattedCurrencyAmount({
   rawAmount,
   symbol,
   decimals,
@@ -43,14 +81,10 @@ function FormattedCurrencyAmount({
   decimals: number
   sigFigs: number
 }) {
-  return (
-    <>
-      {formatAmount(rawAmount, decimals, sigFigs)} {symbol}
-    </>
-  )
+  return `${formatAmount(rawAmount, decimals, sigFigs)} ${symbol}`
 }
 
-function FormattedCurrencyAmountManaged({
+function useFormattedCurrencyAmountManaged({
   rawAmount,
   currencyId,
   sigFigs = 6,
@@ -60,14 +94,14 @@ function FormattedCurrencyAmountManaged({
   sigFigs: number
 }) {
   const currency = useCurrency(currencyId)
-  return currency ? (
-    <FormattedCurrencyAmount
-      rawAmount={rawAmount}
-      decimals={currency.decimals}
-      sigFigs={sigFigs}
-      symbol={currency.symbol ?? '???'}
-    />
-  ) : null
+  return currency
+    ? useFormattedCurrencyAmount({
+        rawAmount,
+        decimals: currency.decimals,
+        sigFigs,
+        symbol: currency.symbol ?? "???",
+      })
+    : "???";
 }
 
 function ClaimSummary({ info: { recipient, uniAmountRaw } }: { info: ClaimTransactionInfo }) {
@@ -76,11 +110,12 @@ function ClaimSummary({ info: { recipient, uniAmountRaw } }: { info: ClaimTransa
   return typeof uniAmountRaw === 'string' ? (
     <Trans
       i18nKey="account.transactionSummary.claimFor"
-      components={{
-        currency: <FormattedCurrencyAmount rawAmount={uniAmountRaw} symbol="UNI" decimals={18} sigFigs={4} />,
-      }}
+      // components={{
+      //   currency: <FormattedCurrencyAmount rawAmount={uniAmountRaw} symbol="UNI" decimals={18} sigFigs={4} />,
+      // }}
       values={{
         name,
+        currency: useFormattedCurrencyAmount({ rawAmount: uniAmountRaw, symbol: "UNI", decimals: 18, sigFigs: 4 })
       }}
     />
   ) : (
@@ -152,40 +187,52 @@ function WrapSummary({ info: { chainId, currencyAmountRaw, unwrapped } }: { info
     return (
       <Trans
         i18nKey="account.transactionSummary.unwrapTo"
-        components={{
-          amount: (
-            <FormattedCurrencyAmount
-              rawAmount={currencyAmountRaw}
-              symbol={native?.wrapped?.symbol ?? 'WETH'}
-              decimals={18}
-              sigFigs={6}
-            />
-          ),
-        }}
+        // components={{
+        //   amount: (
+        //     <FormattedCurrencyAmount
+        //       rawAmount={currencyAmountRaw}
+        //       symbol={native?.wrapped?.symbol ?? "WETH"}
+        //       decimals={18}
+        //       sigFigs={6}
+        //     />
+        //   ),
+        // }}
         values={{
-          symbol: native?.symbol ?? 'ETH',
+          symbol: native?.symbol ?? "ETH",
+          amount: useFormattedCurrencyAmount({
+            rawAmount: currencyAmountRaw,
+            symbol: native?.wrapped?.symbol ?? "WETH",
+            decimals: 18,
+            sigFigs: 6,
+          }),
         }}
       />
-    )
+    );
   } else {
     return (
       <Trans
         i18nKey="account.transactionSummary.wrapTo"
-        components={{
-          amount: (
-            <FormattedCurrencyAmount
-              rawAmount={currencyAmountRaw}
-              symbol={native?.symbol ?? 'ETH'}
-              decimals={18}
-              sigFigs={6}
-            />
-          ),
-        }}
+        // components={{
+        //   amount: (
+        //     <FormattedCurrencyAmount
+        //       rawAmount={currencyAmountRaw}
+        //       symbol={native?.symbol ?? "ETH"}
+        //       decimals={18}
+        //       sigFigs={6}
+        //     />
+        //   ),
+        // }}
         values={{
-          symbol: native?.wrapped?.symbol ?? 'WETH',
+          symbol: native?.wrapped?.symbol ?? "WETH",
+          amount: useFormattedCurrencyAmount({
+            rawAmount: currencyAmountRaw,
+            symbol: native?.symbol ?? "ETH",
+            decimals: 18,
+            sigFigs: 6,
+          }),
         }}
       />
-    )
+    );
   }
 }
 
@@ -256,13 +303,25 @@ function RemoveLiquidityV3Summary({
   return (
     <Trans
       i18nKey="account.transactionSummary.removeLiquiditySummary"
-      components={{
-        base: (
-          <FormattedCurrencyAmountManaged rawAmount={expectedAmountBaseRaw} currencyId={baseCurrencyId} sigFigs={3} />
-        ),
-        quote: (
-          <FormattedCurrencyAmountManaged rawAmount={expectedAmountQuoteRaw} currencyId={quoteCurrencyId} sigFigs={3} />
-        ),
+      // components={{
+      //   base: (
+      //     <FormattedCurrencyAmountManaged rawAmount={expectedAmountBaseRaw} currencyId={baseCurrencyId} sigFigs={3} />
+      //   ),
+      //   quote: (
+      //     <FormattedCurrencyAmountManaged rawAmount={expectedAmountQuoteRaw} currencyId={quoteCurrencyId} sigFigs={3} />
+      //   ),
+      // }}
+      values={{
+        base: useFormattedCurrencyAmountManaged({
+          rawAmount: expectedAmountBaseRaw,
+          currencyId: baseCurrencyId,
+          sigFigs: 3,
+        }),
+        quote: useFormattedCurrencyAmountManaged({
+          rawAmount: expectedAmountQuoteRaw,
+          currencyId: quoteCurrencyId,
+          sigFigs: 3,
+        }),
       }}
     />
   )
@@ -303,13 +362,25 @@ function AddLiquidityV2PoolSummary({
   return (
     <Trans
       i18nKey="account.transactionSummary.addLiquidityv2"
-      components={{
-        base: (
-          <FormattedCurrencyAmountManaged rawAmount={expectedAmountBaseRaw} currencyId={baseCurrencyId} sigFigs={3} />
-        ),
-        quote: (
-          <FormattedCurrencyAmountManaged rawAmount={expectedAmountQuoteRaw} currencyId={quoteCurrencyId} sigFigs={3} />
-        ),
+      // components={{
+      //   base: (
+      //     <FormattedCurrencyAmountManaged rawAmount={expectedAmountBaseRaw} currencyId={baseCurrencyId} sigFigs={3} />
+      //   ),
+      //   quote: (
+      //     <FormattedCurrencyAmountManaged rawAmount={expectedAmountQuoteRaw} currencyId={quoteCurrencyId} sigFigs={3} />
+      //   ),
+      // }}
+      values={{
+        base: useFormattedCurrencyAmountManaged({
+          rawAmount: expectedAmountBaseRaw,
+          currencyId: baseCurrencyId,
+          sigFigs: 3,
+        }),
+        quote: useFormattedCurrencyAmountManaged({
+          rawAmount: expectedAmountQuoteRaw,
+          currencyId: quoteCurrencyId,
+          sigFigs: 3,
+        }),
       }}
     />
   )
@@ -319,11 +390,12 @@ function SendSummary({ info }: { info: SendTransactionInfo }) {
   return (
     <Trans
       i18nKey="account.transactionSummary.sendSummary"
-      components={{
-        amount: <FormattedCurrencyAmountManaged rawAmount={info.amount} currencyId={info.currencyId} sigFigs={6} />,
-      }}
+      // components={{
+      //   amount: <FormattedCurrencyAmountManaged rawAmount={info.amount} currencyId={info.currencyId} sigFigs={6} />,
+      // }}
       values={{
         recipient: info.recipient,
+        amount: useFormattedCurrencyAmountManaged({rawAmount: info.amount, currencyId: info.currencyId, sigFigs: 6}),
       }}
     />
   )
@@ -334,21 +406,17 @@ function SwapSummary({ info }: { info: ExactInputSwapTransactionInfo | ExactOutp
     return (
       <Trans
         i18nKey="account.transactionSummary.swapExactIn"
-        components={{
-          amount1: (
-            <FormattedCurrencyAmountManaged
-              rawAmount={info.inputCurrencyAmountRaw}
-              currencyId={info.inputCurrencyId}
-              sigFigs={6}
-            />
-          ),
-          amount2: (
-            <FormattedCurrencyAmountManaged
-              rawAmount={info.settledOutputCurrencyAmountRaw ?? info.expectedOutputCurrencyAmountRaw}
-              currencyId={info.outputCurrencyId}
-              sigFigs={6}
-            />
-          ),
+        values={{
+          amount1: useFormattedCurrencyAmountManaged({
+            rawAmount: info.inputCurrencyAmountRaw,
+            currencyId: info.inputCurrencyId,
+            sigFigs: 6,
+          }),
+          amount2: useFormattedCurrencyAmountManaged({
+            rawAmount: info.settledOutputCurrencyAmountRaw ?? info.expectedOutputCurrencyAmountRaw,
+            currencyId: info.outputCurrencyId,
+            sigFigs: 6,
+          }),
         }}
       />
     )
@@ -356,21 +424,17 @@ function SwapSummary({ info }: { info: ExactInputSwapTransactionInfo | ExactOutp
     return (
       <Trans
         i18nKey="account.transactionSummary.swapExactOut"
-        components={{
-          amount1: (
-            <FormattedCurrencyAmountManaged
-              rawAmount={info.expectedInputCurrencyAmountRaw}
-              currencyId={info.inputCurrencyId}
-              sigFigs={6}
-            />
-          ),
-          amount2: (
-            <FormattedCurrencyAmountManaged
-              rawAmount={info.outputCurrencyAmountRaw}
-              currencyId={info.outputCurrencyId}
-              sigFigs={6}
-            />
-          ),
+        values={{
+          amount1: useFormattedCurrencyAmountManaged({
+            rawAmount: info.expectedInputCurrencyAmountRaw,
+            currencyId: info.inputCurrencyId,
+            sigFigs: 6,
+          }),
+          amount2: useFormattedCurrencyAmountManaged({
+            rawAmount: info.outputCurrencyAmountRaw,
+            currencyId: info.outputCurrencyId,
+            sigFigs: 6,
+          }),
         }}
       />
     )

@@ -113,7 +113,10 @@ export function useCurrencyInfo(
     withFallback: true,
   })
   const isNative =
-    address === NATIVE_CHAIN_ID || address?.toLowerCase() === 'native' || address?.toLowerCase() === 'eth'
+    address === NATIVE_CHAIN_ID ||
+    address?.toLowerCase() === "native" ||
+    address?.toLowerCase() === "eth" ||
+    address?.toLowerCase() === "btc";
 
   const commonBase = chainIdWithFallback
     ? COMMON_BASES[chainIdWithFallback]?.find(

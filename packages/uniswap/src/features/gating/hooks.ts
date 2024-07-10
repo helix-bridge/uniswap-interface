@@ -10,10 +10,15 @@ import {
   useGateWithExposureLoggingDisabled,
 } from 'uniswap/src/features/gating/sdk/statsig'
 
+const DISABLED_FEATURES = [
+  FeatureFlags.MultipleRoutingOptions,
+  FeatureFlags.CurrencyConversion,
+]
+
 export function useFeatureFlag(flag: FeatureFlags): boolean {
   const name = getFeatureFlagName(flag)
   const { value } = useGate(name)
-  return value
+  return !DISABLED_FEATURES.includes(flag) && value
 }
 
 export function useFeatureFlagWithExposureLoggingDisabled(flag: FeatureFlags): boolean {

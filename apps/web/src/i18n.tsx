@@ -18,10 +18,11 @@ i18n
       if (!language.includes('-')) {
         return
       }
-      if (language === 'en-US') {
-        return enUsLocale
-      }
-      return import(`./i18n/locales/translations/${language}.json`)
+      return enUsLocale
+      // if (language === 'en-US') {
+      //   return enUsLocale
+      // }
+      // return import(`./i18n/locales/translations/${language}.json`)
     })
   )
   .on('failedLoading', (language, namespace, msg) => {

@@ -103,7 +103,7 @@ const EmptyWalletContent = ({ type = 'nft', onNavigateClick }: EmptyWalletConten
     <>
       {content.icon}
       <EmptyWalletText className={headlineMedium}>{content.title}</EmptyWalletText>
-      <EmptyWalletSubtitle color="neutral2">{content.subtitle}</EmptyWalletSubtitle>
+      {/* <EmptyWalletSubtitle color="neutral2">{content.subtitle}</EmptyWalletSubtitle> */}
       {content.actionText && (
         <ActionButton data-testid="nft-explore-nfts-button" onClick={actionButtonClick}>
           {content.actionText}

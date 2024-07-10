@@ -71,18 +71,18 @@ interface Page {
 }
 
 const Pages: Array<Page> = [
-  {
-    title: <Trans i18nKey="common.tokens" />,
-    key: 'tokens',
-    component: Tokens,
-    loggingElementName: InterfaceElementName.MINI_PORTFOLIO_TOKENS_TAB,
-  },
-  {
-    title: <Trans i18nKey="common.nfts" />,
-    key: 'nfts',
-    component: NFTs,
-    loggingElementName: InterfaceElementName.MINI_PORTFOLIO_NFT_TAB,
-  },
+  // {
+  //   title: <Trans i18nKey="common.tokens" />,
+  //   key: 'tokens',
+  //   component: Tokens,
+  //   loggingElementName: InterfaceElementName.MINI_PORTFOLIO_TOKENS_TAB,
+  // },
+  // {
+  //   title: <Trans i18nKey="common.nfts" />,
+  //   key: 'nfts',
+  //   component: NFTs,
+  //   loggingElementName: InterfaceElementName.MINI_PORTFOLIO_NFT_TAB,
+  // },
   {
     title: <Trans i18nKey="common.pools" />,
     key: 'pools',

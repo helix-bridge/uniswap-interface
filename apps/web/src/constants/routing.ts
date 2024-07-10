@@ -24,6 +24,7 @@ import {
   USDC_ARBITRUM_GOERLI,
   USDC_AVALANCHE,
   USDC_BASE,
+  USDC_BITLAYER_TESTNET,
   USDC_BSC,
   USDC_CELO,
   USDC_CELO_ALFAJORES,
@@ -35,6 +36,7 @@ import {
   USDT,
   USDT_ARBITRUM_ONE,
   USDT_AVALANCHE,
+  USDT_BITLAYER_TESTNET,
   USDT_BSC,
   USDT_OPTIMISM,
   USDT_POLYGON,
@@ -49,6 +51,7 @@ import {
   WRAPPED_NATIVE_CURRENCY,
   nativeOnChain,
 } from './tokens'
+import { BRC_BITLAYER_TESTNET } from '@uniswap/smart-order-router'
 
 type ChainTokenList = {
   readonly [chainId: number]: Token[]
@@ -168,6 +171,14 @@ export const COMMON_BASES: ChainCurrencyList = {
   [ChainId.ZORA]: [nativeOnChain(ChainId.ZORA), WRAPPED_NATIVE_CURRENCY[ChainId.ZORA] as Token, USDC_ZORA].map(
     buildCurrencyInfo
   ),
+
+  [ChainId.BITLAYER_TESTNET]: [
+    nativeOnChain(ChainId.BITLAYER_TESTNET),
+    USDT_BITLAYER_TESTNET,
+    USDC_BITLAYER_TESTNET,
+    WRAPPED_NATIVE_CURRENCY[ChainId.BITLAYER_TESTNET] as Token,
+    BRC_BITLAYER_TESTNET,
+  ].map(buildCurrencyInfo),
 }
 
 // used to construct the list of all pairs we consider by default in the frontend

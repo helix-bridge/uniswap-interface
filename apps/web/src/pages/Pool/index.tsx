@@ -25,6 +25,7 @@ import { ProtocolVersion } from 'uniswap/src/data/graphql/uniswap-data-api/__gen
 import Trace from 'uniswap/src/features/telemetry/Trace'
 import CTACards from './CTACards'
 import { LoadingRows } from './styled'
+import { ChainAllPoolsTable } from 'components/Pools/PoolTable/PoolTable'
 
 const PageWrapper = styled(AutoColumn)`
   padding: 68px 8px 0px;
@@ -264,7 +265,7 @@ export default function Pool() {
                 <ThemedText.LargeHeader>
                   <Trans i18nKey="pool.positions" />
                 </ThemedText.LargeHeader>
-                <PoolVersionMenu protocolVersion={ProtocolVersion.V3} />
+                {/* <PoolVersionMenu protocolVersion={ProtocolVersion.V3} /> */}
               </Row>
               <ButtonRow>
                 {networkSupportsV2 && (
@@ -282,7 +283,7 @@ export default function Pool() {
                     )}
                   />
                 )}
-                <ResponsiveButtonPrimary data-cy="join-pool-button" id="join-pool-button" as={Link} to="/add/ETH">
+                <ResponsiveButtonPrimary data-cy="join-pool-button" id="join-pool-button" as={Link} to="/add/BTC">
                   + <Trans i18nKey="pool.newPosition" />
                 </ResponsiveButtonPrimary>
               </ButtonRow>
@@ -331,9 +332,10 @@ export default function Pool() {
                 </ErrorContainer>
               )}
             </MainContentWrapper>
-            <HideSmall>
+            {/* <HideSmall>
               <CTACards />
-            </HideSmall>
+            </HideSmall> */}
+            <ChainAllPoolsTable />
           </AutoColumn>
         </AutoColumn>
       </PageWrapper>

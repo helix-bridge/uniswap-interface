@@ -131,7 +131,7 @@ export default function LiquidityChartRangeInput({
     [isSorted, onLeftRangeInput, onRightRangeInput, ticksAtLimit]
   )
 
-  interactive = interactive && Boolean(formattedData?.length)
+  // interactive = interactive && Boolean(formattedData?.length)
 
   const brushDomain: [number, number] | undefined = useMemo(() => {
     const leftPrice = isSorted ? priceLower : priceUpper?.invert()
@@ -176,7 +176,7 @@ export default function LiquidityChartRangeInput({
           message={<Trans i18nKey="position.noLiquidity" />}
           icon={<CloudOff size={56} stroke={theme.neutral2} />}
         />
-      ) : !formattedData || formattedData.length === 0 || !price ? (
+      ) : !formattedData || !price ? (
         <InfoBox
           message={<Trans i18nKey="position.noLiquidityData" />}
           icon={<BarChart2 size={56} stroke={theme.neutral2} />}

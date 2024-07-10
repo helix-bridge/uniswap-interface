@@ -1,7 +1,10 @@
 import { ApolloError } from '@apollo/client'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { InterfaceElementName } from '@uniswap/analytics-events'
-import { ChainId, Percent } from '@uniswap/sdk-core'
+import { ChainId, CurrencyAmount, Percent, Token as CoreToken } from '@uniswap/sdk-core'
+import { BRC_BITLAYER_TESTNET, USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET, WBTC_BITLAYER_TESTNET } from '@uniswap/smart-order-router'
+import { FeeAmount, Pool, Position } from '@uniswap/v3-sdk'
+import { ButtonEmphasis, ButtonSize, ThemeButton } from 'components/Button'
 import { DoubleCurrencyAndChainLogo } from 'components/DoubleLogo'
 import Row from 'components/Row'
 import { Table } from 'components/Table'
@@ -16,14 +19,23 @@ import { BIPS_BASE } from 'constants/misc'
 import { useUpdateManualOutage } from 'featureFlags/flags/outageBanner'
 import { PoolSortFields, TablePool, useTopPools } from 'graphql/data/pools/useTopPools'
 import { OrderDirection, getSupportedGraphQlChain, gqlToCurrency, unwrapToken } from 'graphql/data/util'
+import { useFilterPossiblyMaliciousPositions } from 'hooks/useFilterPossiblyMaliciousPositions'
+import { usePools } from 'hooks/usePools'
+import { useV3Positions } from 'hooks/useV3Positions'
 import { Trans } from 'i18n'
 import { useAtom } from 'jotai'
 import { atomWithReset, useAtomValue, useResetAtom, useUpdateAtom } from 'jotai/utils'
 import { ReactElement, ReactNode, useCallback, useEffect, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSwapAndLimitContext } from 'state/swap/hooks'
 import styled from 'styled-components'
 import { ThemedText } from 'theme/components'
+import { PositionDetails } from 'types/position'
 import { ProtocolVersion, Token } from 'uniswap/src/data/graphql/uniswap-data-api/__generated__/types-and-hooks'
+import { currencyId } from 'utils/currencyId'
 import { NumberType, useFormatter } from 'utils/formatNumbers'
+import { unwrappedToken } from 'utils/unwrappedToken'
+import { useAccount } from 'wagmi'
 
 const HEADER_DESCRIPTIONS: Record<PoolSortFields, ReactNode | undefined> = {
   [PoolSortFields.TVL]: undefined,
@@ -395,4 +407,259 @@ export function PoolsTable({
       maxHeight={maxHeight}
     />
   )
+}
+
+export function ChainAllPoolsTable() {
+  const account = useAccount();
+  const { chainId } = useSwapAndLimitContext();
+
+  const pools = usePools([
+    [
+      unwrappedToken(USDC_BITLAYER_TESTNET),
+      unwrappedToken(USDT_BITLAYER_TESTNET),
+      FeeAmount.LOW,
+    ],
+    [
+      unwrappedToken(USDC_BITLAYER_TESTNET),
+      unwrappedToken(WBTC_BITLAYER_TESTNET),
+      FeeAmount.LOW,
+    ],
+    [
+      unwrappedToken(USDC_BITLAYER_TESTNET),
+      unwrappedToken(BRC_BITLAYER_TESTNET),
+      FeeAmount.LOW,
+    ],
+    [
+      unwrappedToken(USDT_BITLAYER_TESTNET),
+      unwrappedToken(WBTC_BITLAYER_TESTNET),
+      FeeAmount.LOW,
+    ],
+  ]);
+  const { positions: userPositions, loading: userPositionsLoading } =
+    useV3Positions(account?.address);
+  const filteredUserPositions = useFilterPossiblyMaliciousPositions(
+    userPositions ?? []
+  );
+
+  return (
+    <AllPoolsTable
+      loading={userPositionsLoading}
+      pools={useMemo(
+        () => pools.filter((p) => p.at(1)).map((p) => p[1]) as Pool[],
+        [pools]
+      )}
+      positions={filteredUserPositions}
+    />
+  );
+}
+
+interface AllPoolsTableValues {
+  index?: number;
+  pool?: Pool;
+  positions?: PositionDetails[];
+}
+
+function AllPoolsTable({
+  loading,
+  pools,
+  positions,
+}: {
+  loading: boolean;
+  pools: Pool[];
+  positions: PositionDetails[];
+}) {
+  const data = useMemo(
+    () => pools.map((pool, index) => ({ index, pool, positions })),
+    [pools, positions]
+  );
+  const { formatCurrencyAmount } = useFormatter();
+  const navigate = useNavigate();
+
+  const columns = useMemo(() => {
+    const columnHelper = createColumnHelper<AllPoolsTableValues>();
+    return [
+      columnHelper.accessor((row) => row.index, {
+        id: "index",
+        header: () => (
+          <Cell justifyContent="center" minWidth={44}>
+            <ThemedText.BodySecondary>#</ThemedText.BodySecondary>
+          </Cell>
+        ),
+        cell: (index) => (
+          <Cell justifyContent="center" loading={loading} minWidth={44}>
+            <ThemedText.BodySecondary>
+              {index.getValue?.()}
+            </ThemedText.BodySecondary>
+          </Cell>
+        ),
+      }),
+      columnHelper.accessor((row) => row.pool, {
+        id: "pool",
+        header: () => (
+          <Cell justifyContent="flex-start" width={180} grow>
+            <ThemedText.BodySecondary>{`Pool`}</ThemedText.BodySecondary>
+          </Cell>
+        ),
+        cell: (pool) => {
+          const poolValue = pool?.getValue?.();
+          return (
+            <Cell
+              justifyContent="flex-start"
+              loading={loading}
+              width={180}
+              grow
+            >
+              {poolValue ? (
+                <Row gap="sm">
+                  <DoubleCurrencyAndChainLogo
+                    chainId={poolValue.chainId}
+                    currencies={[
+                      unwrappedToken(poolValue.token0),
+                      unwrappedToken(poolValue.token1),
+                    ]}
+                    size={28}
+                  />
+                  <NameText>
+                    {poolValue.token0.symbol}/{poolValue.token1.symbol}
+                  </NameText>
+                  <Badge>{poolValue.fee / BIPS_BASE}%</Badge>
+                </Row>
+              ) : null}
+            </Cell>
+          );
+        },
+      }),
+      // columnHelper.accessor((row) => row.pool, {
+      //   id: "balance",
+      //   header: () => (
+      //     <Cell justifyContent="flex-end" width={120} grow>
+      //       <ThemedText.BodySecondary>{`Balance`}</ThemedText.BodySecondary>
+      //     </Cell>
+      //   ),
+      //   cell: (pool) => (
+      //     <Cell justifyContent="flex-end" loading={loading} width={120} grow>
+      //       {pool?.getValue?.()?.token0Price.toSignificant()}
+      //     </Cell>
+      //   ),
+      // }),
+      columnHelper.accessor((row) => row, {
+        id: "my-position",
+        header: () => (
+          <Cell justifyContent="flex-end" minWidth={120} grow>
+            <ThemedText.BodySecondary>{`My position`}</ThemedText.BodySecondary>
+          </Cell>
+        ),
+        cell: (row) => {
+          const { pool = null, positions = [] } = row.getValue?.() ?? { pool: null, positions: [] };
+          const positionsInPool = pool ? positions.filter(
+            (p) =>
+              p.liquidity.gt(0) &&
+              p.fee === pool.fee &&
+              p.token0.toLowerCase() === pool.token0.address.toLowerCase() &&
+              p.token1.toLowerCase() === pool.token1.address.toLowerCase()
+          ).map((p) => (new Position({ pool, liquidity: p.liquidity.toString(), tickLower: p.tickLower, tickUpper: p.tickUpper }))) : [];
+
+          return (
+            <Cell
+              justifyContent="flex-end"
+              loading={loading}
+              minWidth={120}
+              grow
+            >
+              <ThemedText.BodyPrimary>
+                {positionsInPool.length
+                  ? `${formatCurrencyAmount({
+                      amount: positionsInPool.reduce(
+                        (acc, cur) =>
+                          acc ? acc.add(cur.amount0) : cur.amount0,
+                        null as null | CurrencyAmount<CoreToken>
+                      ),
+                    })} / ${formatCurrencyAmount({
+                      amount: positionsInPool.reduce(
+                        (acc, cur) =>
+                          acc ? acc.add(cur.amount1) : cur.amount1,
+                        null as null | CurrencyAmount<CoreToken>
+                      ),
+                    })}`
+                  : undefined}
+              </ThemedText.BodyPrimary>
+            </Cell>
+          );
+        },
+      }),
+      columnHelper.accessor((row) => row, {
+        id: "deposit",
+        header: () => <Cell minWidth={120} grow />,
+        cell: (row) => {
+          const { pool = null, positions = [] } = row.getValue?.() ?? {
+            pool: null,
+            positions: [],
+          };
+          const positionsInPool = pool ? positions.filter(
+            (p) =>
+              p.liquidity.gt(0) &&
+              p.fee === pool.fee &&
+              p.token0.toLowerCase() === pool.token0.address.toLowerCase() &&
+              p.token1.toLowerCase() === pool.token1.address.toLowerCase()
+          ) : [];
+          return (
+            <Cell minWidth={120} loading={loading} grow>
+              <ThemeButton
+                size={ButtonSize.medium}
+                emphasis={ButtonEmphasis.highSoft}
+                disabled={!positionsInPool.length}
+                onClick={() => {
+                  positionsInPool.length &&
+                    pool &&
+                    navigate(
+                      `/add/${currencyId(
+                        unwrappedToken(pool.token0)
+                      )}/${currencyId(unwrappedToken(pool.token1))}/${
+                        pool.fee
+                      }/${positionsInPool[0].tokenId}`
+                    );
+                }}
+              >
+                Deposit
+              </ThemeButton>
+            </Cell>
+          );
+        },
+      }),
+      columnHelper.accessor((row) => row, {
+        id: "withdraw",
+        header: () => <Cell minWidth={120} grow />,
+        cell: (row) => {
+          const { pool = null, positions = [] } = row.getValue?.() ?? {
+            pool: null,
+            positions: [],
+          };
+          const positionsInPool = pool ? positions.filter(
+            (p) =>
+              p.liquidity.gt(0) &&
+              p.fee === pool.fee &&
+              p.token0.toLowerCase() === pool.token0.address.toLowerCase() &&
+              p.token1.toLowerCase() === pool.token1.address.toLowerCase()
+          ) : [];
+          return (
+            <Cell minWidth={120} loading={loading} grow>
+              <ThemeButton
+                size={ButtonSize.medium}
+                emphasis={ButtonEmphasis.highSoft}
+                disabled={!positionsInPool.length}
+                onClick={() => {
+                  positionsInPool.length &&
+                    navigate(`/remove/${positionsInPool[0].tokenId}`);
+                }}
+              >
+                Withdraw
+              </ThemeButton>
+            </Cell>
+          );
+        },
+      }),
+    ];
+  }, []);
+
+  return <Table columns={columns} data={data} loading={loading} />;
 }

@@ -18,7 +18,7 @@ export function useDensityChartData({
 
   const formatData = useCallback(() => {
     if (!data?.length) {
-      return undefined
+      return []
     }
 
     const newData: ChartEntry[] = []

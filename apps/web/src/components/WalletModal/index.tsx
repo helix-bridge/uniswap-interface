@@ -11,7 +11,7 @@ import { flexColumnNoWrap } from 'theme/styles'
 import { Text } from 'ui/src'
 import ConnectionErrorView from './ConnectionErrorView'
 import { Option } from './Option'
-import PrivacyPolicyNotice from './PrivacyPolicyNotice'
+// import PrivacyPolicyNotice from './PrivacyPolicyNotice'
 import { UniswapWalletOptions } from './UniswapWalletOptions'
 import { useOrderedConnections } from './useOrderedConnections'
 
@@ -78,9 +78,9 @@ export default function WalletModal({ openSettings }: { openSettings: () => void
           </OptionGrid>
         </Row>
         <Column gap="md">
-          <TextSectionWrapper>
+          {/* <TextSectionWrapper>
             <PrivacyPolicyNotice />
-          </TextSectionWrapper>
+          </TextSectionWrapper> */}
           {showMoonpayText && (
             <>
               <Line />
