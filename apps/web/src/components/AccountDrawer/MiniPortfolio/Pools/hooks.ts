@@ -4,7 +4,7 @@ import {
   Token,
   NONFUNGIBLE_POSITION_MANAGER_ADDRESSES as V3NFT_ADDRESSES,
 } from '@uniswap/sdk-core'
-import type { AddressMap } from '@uniswap/smart-order-router'
+import { isChainSupportedByHelixSwap, type AddressMap } from '@uniswap/smart-order-router'
 import NFTPositionManagerJSON from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 import MulticallJSON from '@uniswap/v3-periphery/artifacts/contracts/lens/UniswapInterfaceMulticall.sol/UniswapInterfaceMulticall.json'
 import { useWeb3React } from '@web3-react/core'
@@ -69,7 +69,7 @@ export function useInterfaceMulticallContracts(chainIds: ChainId[]): ContractMap
 type PriceMap = { [key: CurrencyKey]: number | undefined }
 export function usePoolPriceMap(positions: PositionInfo[] | undefined) {
   const contracts = useMemo(() => {
-    if (!positions || !positions.length) {
+    if (!positions || !positions.length || positions.some((p) => isChainSupportedByHelixSwap(p.chainId))) {
       return []
     }
     // Avoids fetching duplicate tokens by placing in map
