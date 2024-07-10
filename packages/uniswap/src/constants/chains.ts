@@ -83,6 +83,7 @@ import {
   sepolia,
   zora,
 } from 'wagmi/chains'
+import { USDC_BITLAYER, USDT_BITLAYER } from '@uniswap/smart-order-router'
 
 /** Address that represents native currencies on ETH, Arbitrum, etc. */
 export const DEFAULT_NATIVE_ADDRESS = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
@@ -1063,6 +1064,74 @@ export const UNIVERSE_CHAIN_INFO = {
       symbol: 'WBTC',
       decimals: 18,
       address: '0x5F8D4232367759bCe5d9488D3ade77FCFF6B9b6B',
+    },
+  } as const satisfies UniverseChainInfo,
+  [UniverseChainId.BITLAYER]: {
+    name: 'Bitlayer Mainnet',
+    testnet: false,
+    blockExplorers: {
+      default: {
+        name: 'Btrscan',
+        url: 'https://www.btrscan.com',
+      },
+    },
+    rpcUrls: {
+      default: { http: ['https://rpc.bitlayer.org'] },
+      fallback: { http: ['https://rpc.bitlayer.org'] },
+      appOnly: { http: [`https://rpc.bitlayer.org`] },
+    },
+    contracts: {
+      multicall3: {
+        address: '0x5B256fE9e993902eCe49D138a5b1162cBb529474',
+        blockCreated: 2421963,
+      },
+    },
+
+    id: UniverseChainId.BITLAYER,
+    assetRepoNetworkName: undefined,
+    backendChain: {
+      chain: BackendChainId.UnknownChain as InterfaceGqlChain, // TODO
+      backendSupported: false,
+      isSecondaryChain: false,
+      nativeTokenBackendAddress: undefined,
+    },
+    blockPerMainnetEpochForChainId: 4,
+    blockWaitMsBeforeWarning: undefined,
+    bridge: 'https://www.bitlayer.org/bridge',
+    chainPriority: 0,
+    docs: 'https://docs.bitlayer.org/',
+    elementName: ElementName.ChainBitlayer,
+    explorer: {
+      name: 'BtrScan',
+      url: 'https://www.btrscan.com',
+      logoLight: EtherscanLogoLight,
+      logoDark: EtherscanLogoDark,
+    },
+    helpCenterUrl: undefined,
+    infoLink: 'https://app.uniswap.org/explore', // TODO
+    infuraPrefix: undefined,
+    interfaceName: 'bitlayer',
+    label: 'Bitlayer Mainnet',
+    logo: BITLAYER_LOGO,
+    nativeCurrency: {
+      name: 'Bitlayer BTC',
+      symbol: 'BTC',
+      decimals: 18,
+      address: DEFAULT_NATIVE_ADDRESS,
+    },
+    networkLayer: NetworkLayer.L2,
+    pendingTransactionsRetryOptions: undefined,
+    spotPriceStablecoinAmount: CurrencyAmount.fromRawAmount(USDC_BITLAYER_TESTNET, 1e12),
+    stablecoins: [USDC_BITLAYER, USDT_BITLAYER],
+    statusPage: undefined,
+    supportsClientSideRouting: true,
+    supportsGasEstimates: false,
+    urlParam: 'bitlayer',
+    wrappedNativeCurrency: {
+      name: 'Wrapped BTC',
+      symbol: 'WBTC',
+      decimals: 18,
+      address: '0xfF204e2681A6fA0e2C3FaDe68a1B28fb90E4Fc5F',
     },
   } as const satisfies UniverseChainInfo,
 }

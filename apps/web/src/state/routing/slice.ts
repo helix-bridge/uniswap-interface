@@ -24,6 +24,7 @@ import {
   UniswapXv2Config,
 } from './types'
 import { isExactInput, transformQuoteToTrade } from './utils'
+import { isChainSupportedByHelixSwap } from '@uniswap/smart-order-router'
 
 const UNISWAP_GATEWAY_DNS_URL = process.env.REACT_APP_UNISWAP_GATEWAY_DNS
 if (UNISWAP_GATEWAY_DNS_URL === undefined) {
@@ -43,7 +44,7 @@ const DEFAULT_QUERY_PARAMS = {
 }
 
 function getClientParams(chainId: ChainId) {
-  if (chainId === ChainId.BITLAYER_TESTNET) {
+  if (isChainSupportedByHelixSwap(chainId)) {
     return {
       protocols: [Protocol.V3],
     }
@@ -112,7 +113,7 @@ export const routingApi = createApi({
       queryFn(args, _api, _extraOptions, fetch) {
         return trace({ name: 'Quote', op: 'quote', data: { ...args } }, async (trace) => {
           logSwapQuoteRequest(args.tokenInChainId, args.routerPreference, false)
-          if (args.tokenInChainId !== ChainId.BITLAYER_TESTNET) {
+          if (!isChainSupportedByHelixSwap(args.tokenInChainId)) {
             const {
               tokenInAddress: tokenIn,
               tokenInChainId,

@@ -14,7 +14,7 @@ import { currencyKey } from 'utils/currencyKey'
 import { PositionInfo, useCachedPositions, useGetCachedTokens, usePoolAddressCache } from './cache'
 import { Call, DEFAULT_GAS_LIMIT } from './getTokensAsync'
 import { useInterfaceMulticallContracts, usePoolPriceMap, useV3ManagerContracts } from './hooks'
-import { isBitlayer } from 'constants/tokens'
+import { isChainSupportedByHelixSwap } from '@uniswap/smart-order-router'
 
 function createPositionInfo(
   owner: string,
@@ -43,7 +43,7 @@ const MAX_UINT128 = BigNumber.from(2).pow(128).sub(1)
 
 const DEFAULT_CHAINS = [...L1_CHAIN_IDS, ...L2_CHAIN_IDS].filter((chain: number) => {
   // return !TESTNET_CHAIN_IDS.includes(chain)
-  return isBitlayer(chain)
+  return isChainSupportedByHelixSwap(chain)
 })
 
 type UseMultiChainPositionsData = { positions?: PositionInfo[]; loading: boolean }

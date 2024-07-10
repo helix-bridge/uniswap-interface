@@ -14,6 +14,7 @@ import { useAccount } from 'hooks/useAccount'
 import { isAddress } from 'utilities/src/addresses'
 import { nativeOnChain } from '../../constants/tokens'
 import { useInterfaceMulticall } from '../../hooks/useContract'
+import { isChainSupportedByHelixSwap } from '@uniswap/smart-order-router'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
@@ -183,7 +184,7 @@ export function useCurrencyBalances(
   chainId?: number
 ): (CurrencyAmount<Currency> | undefined)[] {
   const { chainId: providerChainId } = useAccount()
-  const isSynced = chainId === providerChainId || providerChainId === ChainId.BITLAYER_TESTNET
+  const isSynced = chainId === providerChainId || isChainSupportedByHelixSwap(providerChainId ?? -1)
 
   const gqlCurrencyBalances = useGqlCurrencyBalances(account, currencies)
   const rpcCurrencyBalances = useRpcCurrencyBalances(account, currencies)

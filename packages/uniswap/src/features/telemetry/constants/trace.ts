@@ -109,6 +109,7 @@ export const ElementName = {
   ChainBase: 'chain-base',
   ChainBlast: 'chain-blast',
   ChainBitlayerTestnet: 'bitlayer-testnet',
+  ChainBitlayer: 'bitlayer',
   ChainZora: 'chain-zora',
   ChooseInputToken: 'choose-input-token',
   ChooseOutputToken: 'choose-output-token',

@@ -28,6 +28,7 @@ import { currencyId } from 'utils/currencyId'
 import { getNativeTokenDBAddress } from 'utils/nativeTokens'
 import { useCombinedInactiveLists } from '../state/lists/hooks'
 import { useUserAddedTokens } from '../state/user/userAddedTokens'
+import { NATIVE_CURRENCY } from '@uniswap/smart-order-router'
 
 type Maybe<T> = T | undefined
 
@@ -116,7 +117,8 @@ export function useCurrencyInfo(
     address === NATIVE_CHAIN_ID ||
     address?.toLowerCase() === "native" ||
     address?.toLowerCase() === "eth" ||
-    address?.toLowerCase() === "btc";
+    address?.toLowerCase() === "btc" ||
+    address?.toLowerCase() === NATIVE_CURRENCY[chainIdWithFallback ?? -1]?.toLowerCase();
 
   const commonBase = chainIdWithFallback
     ? COMMON_BASES[chainIdWithFallback]?.find(

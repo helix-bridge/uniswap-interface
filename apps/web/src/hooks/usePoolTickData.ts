@@ -10,6 +10,7 @@ import { useAllV3TicksQuery } from 'uniswap/src/data/graphql/uniswap-data-api/__
 import { logger } from 'utilities/src/logger/logger'
 import computeSurroundingTicks from 'utils/computeSurroundingTicks'
 import { PoolState, usePoolMultichain } from './usePools'
+import { isChainSupportedByHelixSwap } from '@uniswap/smart-order-router'
 
 const PRICE_FIXED_DIGITS = 8
 
@@ -52,7 +53,7 @@ function useTicksFromSubgraph(
       skip,
       first: MAX_TICK_FETCH_VALUE,
     },
-    skip: !poolAddress || chainId === ChainId.BITLAYER_TESTNET,
+    skip: !poolAddress || isChainSupportedByHelixSwap(chainId),
     pollInterval: ms(`30s`),
   })
 }

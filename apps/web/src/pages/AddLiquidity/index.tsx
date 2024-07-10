@@ -76,6 +76,7 @@ import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { Dots } from '../Pool/styled'
 import { Review } from './Review'
 import { DynamicSection, MediumOnly, ResponsiveTwoColumns, ScrollablePage, StyledInput, Wrapper } from './styled'
+import { NATIVE_CURRENCY } from '@uniswap/smart-order-router'
 
 const DEFAULT_ADD_IN_RANGE_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
 const blastRebasingAlertAtom = atomWithStorage<boolean>('shouldShowBlastRebasingAlert', true)
@@ -369,13 +370,12 @@ function AddLiquidity() {
         // prevent weth + eth
         const isETHOrWETHNew =
           currencyIdNew === 'ETH' ||
-          currencyIdNew === 'BTC' ||
           (account.status === 'connected' &&
             account.chainId &&
             currencyIdNew === WRAPPED_NATIVE_CURRENCY[account.chainId]?.address)
         const isETHOrWETHOther =
           currencyIdOther !== undefined &&
-          (currencyIdOther === 'ETH' || currencyIdOther === 'BTC' ||
+          (currencyIdOther === 'ETH' ||
             (account.status === 'connected' &&
               account.chainId &&
               currencyIdOther === WRAPPED_NATIVE_CURRENCY[account.chainId]?.address))
