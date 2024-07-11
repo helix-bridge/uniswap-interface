@@ -8,6 +8,7 @@ import {
   BLAST_LOGO,
   BNB_LOGO,
   CELO_LOGO,
+  DARWINIA_LOGO,
   ETHEREUM_LOGO,
   MUMBAI_LOGO,
   OPTIMISM_LOGO,
@@ -83,7 +84,7 @@ import {
   sepolia,
   zora,
 } from 'wagmi/chains'
-import { USDC_BITLAYER, USDT_BITLAYER } from '@uniswap/smart-order-router'
+import { USDC_BITLAYER, USDT_BITLAYER, USDT_DARWINIA } from '@uniswap/smart-order-router'
 
 /** Address that represents native currencies on ETH, Arbitrum, etc. */
 export const DEFAULT_NATIVE_ADDRESS = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
@@ -1132,6 +1133,74 @@ export const UNIVERSE_CHAIN_INFO = {
       symbol: 'WBTC',
       decimals: 18,
       address: '0xfF204e2681A6fA0e2C3FaDe68a1B28fb90E4Fc5F',
+    },
+  } as const satisfies UniverseChainInfo,
+  [UniverseChainId.DARWINIA]: {
+    name: 'Darwinia',
+    testnet: false,
+    blockExplorers: {
+      default: {
+        name: 'DarwiniaScan',
+        url: 'https://explorer.darwinia.network',
+      },
+    },
+    rpcUrls: {
+      default: { http: ['https://rpc.darwinia.network'] },
+      fallback: { http: ['https://rpc.darwinia.network'] },
+      appOnly: { http: [`https://rpc.darwinia.network`] },
+    },
+    contracts: {
+      multicall3: {
+        address: '0xcA11bde05977b3631167028862bE2a173976CA11',
+        blockCreated: 251739,
+      },
+    },
+
+    id: UniverseChainId.DARWINIA,
+    assetRepoNetworkName: undefined,
+    backendChain: {
+      chain: BackendChainId.UnknownChain as InterfaceGqlChain, // TODO
+      backendSupported: false,
+      isSecondaryChain: false,
+      nativeTokenBackendAddress: undefined,
+    },
+    blockPerMainnetEpochForChainId: 1,
+    blockWaitMsBeforeWarning: undefined,
+    bridge: 'https://bridge.darwinia.network',
+    chainPriority: 0,
+    docs: 'https://docs.darwinia.network',
+    elementName: ElementName.ChainDarwinia,
+    explorer: {
+      name: 'DarwiniaScan',
+      url: 'https://explorer.darwinia.network',
+      logoLight: EtherscanLogoLight,
+      logoDark: EtherscanLogoDark,
+    },
+    helpCenterUrl: undefined,
+    infoLink: 'https://app.uniswap.org/explore', // TODO
+    infuraPrefix: undefined,
+    interfaceName: 'darwinia',
+    label: 'Darwinia',
+    logo: DARWINIA_LOGO,
+    nativeCurrency: {
+      name: 'RING',
+      symbol: 'RING',
+      decimals: 18,
+      address: DEFAULT_NATIVE_ADDRESS,
+    },
+    networkLayer: NetworkLayer.L2,
+    pendingTransactionsRetryOptions: undefined,
+    spotPriceStablecoinAmount: CurrencyAmount.fromRawAmount(USDT_DARWINIA, 1e12),
+    stablecoins: [USDT_DARWINIA],
+    statusPage: undefined,
+    supportsClientSideRouting: true,
+    supportsGasEstimates: false,
+    urlParam: 'darwinia',
+    wrappedNativeCurrency: {
+      name: 'Wrapped RING',
+      symbol: 'WRING',
+      decimals: 18,
+      address: '0xE7578598Aac020abFB918f33A20faD5B71d670b4',
     },
   } as const satisfies UniverseChainInfo,
 }

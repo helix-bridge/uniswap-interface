@@ -31,6 +31,7 @@ export const SUPPORTED_INTERFACE_CHAIN_IDS = [
   ChainId.ZORA,
   ChainId.BITLAYER_TESTNET,
   ChainId.BITLAYER,
+  ChainId.DARWINIA,
 ] as const
 
 export function isSupportedChainId(chainId?: number | ChainId | null): chainId is SupportedInterfaceChainId {
@@ -101,6 +102,7 @@ const SEPOLIA = UNIVERSE_CHAIN_INFO[UniverseChainId.SEPOLIA]
 const ZORA = UNIVERSE_CHAIN_INFO[UniverseChainId.ZORA]
 const BITLAYER_TESTNET = UNIVERSE_CHAIN_INFO[UniverseChainId.BITLAYER_TESTNET]
 const BITLAYER = UNIVERSE_CHAIN_INFO[UniverseChainId.BITLAYER]
+const DARWINIA = UNIVERSE_CHAIN_INFO[UniverseChainId.DARWINIA]
 
 const INTERFACE_SUPPORTED_CHAINS = [
   MAINNET,
@@ -121,6 +123,7 @@ const INTERFACE_SUPPORTED_CHAINS = [
   ZORA,
   BITLAYER_TESTNET,
   BITLAYER,
+  DARWINIA,
 ] as const
 
 type ExtractObject<TObject extends Record<string, unknown>, TNarrowedObject extends Partial<TObject>> = Extract<
@@ -154,6 +157,7 @@ export const CHAIN_INFO: ChainInfoMap = {
   [ChainId.ZORA]: ZORA,
   [ChainId.BITLAYER_TESTNET]: BITLAYER_TESTNET,
   [ChainId.BITLAYER]: BITLAYER,
+  [ChainId.DARWINIA]: DARWINIA,
 } as const
 
 export type ChainSlug = SupportedInterfaceChain['urlParam']

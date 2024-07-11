@@ -2,7 +2,7 @@ import { ApolloError } from '@apollo/client'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { InterfaceElementName } from '@uniswap/analytics-events'
 import { ChainId, CurrencyAmount, Percent, Token as CoreToken, Currency } from '@uniswap/sdk-core'
-import { BRC_BITLAYER_TESTNET, USDC_BITLAYER, USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET, WBTC_BITLAYER, WBTC_BITLAYER_TESTNET } from '@uniswap/smart-order-router'
+import { BRC_BITLAYER_TESTNET, USDC_BITLAYER, USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET, USDT_DARWINIA, WBTC_BITLAYER, WBTC_BITLAYER_TESTNET, WRING_DARWINIA } from '@uniswap/smart-order-router'
 import { FeeAmount, Pool, Position } from '@uniswap/v3-sdk'
 import { ButtonEmphasis, ButtonSize, ThemeButton } from 'components/Button'
 import { DoubleCurrencyAndChainLogo } from 'components/DoubleLogo'
@@ -438,6 +438,14 @@ function getPoolKeys(chainId: ChainId | undefined): [Currency, Currency, FeeAmou
         [
           unwrappedToken(USDC_BITLAYER),
           unwrappedToken(WBTC_BITLAYER),
+          FeeAmount.LOW,
+        ],
+      ]
+    case ChainId.DARWINIA:
+      return [
+        [
+          unwrappedToken(USDT_DARWINIA),
+          unwrappedToken(WRING_DARWINIA),
           FeeAmount.LOW,
         ],
       ]
