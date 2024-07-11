@@ -493,7 +493,7 @@ function AllPoolsTable({
   positions: PositionDetails[];
 }) {
   const data = useMemo(
-    () => pools.map((pool, index) => ({ index, pool, positions })),
+    () => pools.map((pool, index) => ({ index: index + 1, pool, positions })),
     [pools, positions]
   );
   const { formatCurrencyAmount } = useFormatter();
