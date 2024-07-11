@@ -11,9 +11,17 @@ export default function AddLiquidityWithTokenRedirects() {
 
   // prevent weth + eth
   const isETHOrWETHA =
-    (currencyIdA === 'ETH' || currencyIdA === 'BTC') || (chainId !== undefined && currencyIdA === WRAPPED_NATIVE_CURRENCY[chainId]?.address)
+    currencyIdA === "ETH" ||
+    currencyIdA === "BTC" ||
+    currencyIdA === "RING" ||
+    (chainId !== undefined &&
+      currencyIdA === WRAPPED_NATIVE_CURRENCY[chainId]?.address);
   const isETHOrWETHB =
-    (currencyIdB === 'ETH' || currencyIdB === 'BTC') || (chainId !== undefined && currencyIdB === WRAPPED_NATIVE_CURRENCY[chainId]?.address)
+    currencyIdB === "ETH" ||
+    currencyIdB === "BTC" ||
+    currencyIdB === "RING" ||
+    (chainId !== undefined &&
+      currencyIdB === WRAPPED_NATIVE_CURRENCY[chainId]?.address);
 
   if (
     currencyIdA &&

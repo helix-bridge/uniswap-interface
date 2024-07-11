@@ -197,7 +197,6 @@ export default function Pool() {
   const isSupportedChain = useIsSupportedChainId(account.chainId)
   const networkSupportsV2 = useNetworkSupportsV2()
   const accountDrawer = useAccountDrawer()
-  const { chainId } = useSwapAndLimitContext()
 
   const theme = useTheme()
   const [userHideClosedPositions, setUserHideClosedPositions] = useUserHideClosedPositions()
@@ -286,7 +285,7 @@ export default function Pool() {
                     )}
                   />
                 )}
-                <ResponsiveButtonPrimary data-cy="join-pool-button" id="join-pool-button" as={Link} to={`/add/${chainId ? (NATIVE_CURRENCY[chainId] ?? 'ETH') : 'ETH'}`}>
+                <ResponsiveButtonPrimary data-cy="join-pool-button" id="join-pool-button" as={Link} to={`/add/${NATIVE_CURRENCY[account.chainId ?? -1] ?? 'ETH'}`}>
                   + <Trans i18nKey="pool.newPosition" />
                 </ResponsiveButtonPrimary>
               </ButtonRow>
