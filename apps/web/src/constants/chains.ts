@@ -1,8 +1,9 @@
 /* eslint-disable rulesdir/no-undefined-or */
 import { ChainId, Currency, V2_ROUTER_ADDRESSES } from '@uniswap/sdk-core'
+import { isChainSupportedByHelixSwap } from '@uniswap/smart-order-router'
 import ms from 'ms'
 import { useCallback, useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { UNIVERSE_CHAIN_INFO } from 'uniswap/src/constants/chains'
 import { Chain as BackendChainId } from 'uniswap/src/data/graphql/uniswap-data-api/__generated__/types-and-hooks'
 import { FeatureFlags } from 'uniswap/src/features/gating/flags'
@@ -29,10 +30,11 @@ export const SUPPORTED_INTERFACE_CHAIN_IDS = [
   ChainId.BLAST,
   ChainId.ZORA,
   ChainId.BITLAYER_TESTNET,
+  ChainId.BITLAYER,
 ] as const
 
 export function isSupportedChainId(chainId?: number | ChainId | null): chainId is SupportedInterfaceChainId {
-  return !!chainId && SUPPORTED_INTERFACE_CHAIN_IDS.includes(chainId as SupportedInterfaceChainId)
+  return !!chainId && SUPPORTED_INTERFACE_CHAIN_IDS.filter(isChainSupportedByHelixSwap).includes(chainId as SupportedInterfaceChainId)
 }
 
 // Used to feature flag chains. If a chain is not included in the object, it is considered enabled by default.
@@ -71,7 +73,7 @@ export function useIsSupportedChainIdCallback() {
 
 export function useSupportedChainId(chainId?: number): SupportedInterfaceChainId | undefined {
   const featureFlaggedChains = useFeatureFlaggedChainIds()
-  if (!chainId || SUPPORTED_INTERFACE_CHAIN_IDS.indexOf(chainId) === -1) {
+  if (!chainId || SUPPORTED_INTERFACE_CHAIN_IDS.filter(isChainSupportedByHelixSwap).indexOf(chainId) === -1) {
     return
   }
 
@@ -98,6 +100,7 @@ const POLYGON_MUMBAI = UNIVERSE_CHAIN_INFO[UniverseChainId.PolygonMumbai]
 const SEPOLIA = UNIVERSE_CHAIN_INFO[UniverseChainId.SEPOLIA]
 const ZORA = UNIVERSE_CHAIN_INFO[UniverseChainId.ZORA]
 const BITLAYER_TESTNET = UNIVERSE_CHAIN_INFO[UniverseChainId.BITLAYER_TESTNET]
+const BITLAYER = UNIVERSE_CHAIN_INFO[UniverseChainId.BITLAYER]
 
 const INTERFACE_SUPPORTED_CHAINS = [
   MAINNET,
@@ -117,6 +120,7 @@ const INTERFACE_SUPPORTED_CHAINS = [
   BLAST,
   ZORA,
   BITLAYER_TESTNET,
+  BITLAYER,
 ] as const
 
 type ExtractObject<TObject extends Record<string, unknown>, TNarrowedObject extends Partial<TObject>> = Extract<
@@ -149,6 +153,7 @@ export const CHAIN_INFO: ChainInfoMap = {
   [ChainId.BLAST]: BLAST,
   [ChainId.ZORA]: ZORA,
   [ChainId.BITLAYER_TESTNET]: BITLAYER_TESTNET,
+  [ChainId.BITLAYER]: BITLAYER,
 } as const
 
 export type ChainSlug = SupportedInterfaceChain['urlParam']
@@ -307,5 +312,6 @@ export function useChainFromUrlParam(): SupportedInterfaceChain | undefined {
   const chainName = useParams<{ chainName?: string }>().chainName
   // In the case where /explore/:chainName is used, the chainName is passed as a tab param
   const tab = useParams<{ tab?: string }>().tab
-  return getChainFromChainUrlParam(getChainUrlParam(chainName ?? tab))
+  const chain = useSearchParams()[0].get('chain')
+  return getChainFromChainUrlParam(getChainUrlParam(chainName ?? tab ?? chain ?? ''))
 }

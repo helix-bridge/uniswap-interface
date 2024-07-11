@@ -111,6 +111,12 @@ export function getChainUI(chainId: ChainId, darkMode: boolean): ChainUI | undef
         bgColor: '#6B8AFF33',
         textColor: '#6B8AFF',
       }
+    case ChainId.BITLAYER:
+      return {
+        symbol: BITLAYER_LOGO,
+        bgColor: '#6B8AFF33',
+        textColor: '#6B8AFF',
+      }
     default:
       return undefined
   }

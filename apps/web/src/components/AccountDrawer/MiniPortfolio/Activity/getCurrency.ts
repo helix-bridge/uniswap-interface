@@ -1,7 +1,8 @@
 import { Currency } from '@uniswap/sdk-core'
+import { NATIVE_CURRENCY } from '@uniswap/smart-order-router'
 import { SupportedInterfaceChainId, chainIdToBackendChain } from 'constants/chains'
 import { COMMON_BASES } from 'constants/routing'
-import { isBitlayer, NATIVE_CHAIN_ID, nativeOnChain } from 'constants/tokens'
+import { NATIVE_CHAIN_ID, nativeOnChain } from 'constants/tokens'
 import { apolloClient } from 'graphql/data/apollo/client'
 import { gqlTokenToCurrencyInfo } from 'graphql/data/types'
 import {
@@ -27,7 +28,7 @@ export async function getCurrency(
     currencyId === NATIVE_CHAIN_ID ||
     currencyId?.toLowerCase() === "native" ||
     currencyId?.toLowerCase() === "eth" ||
-    (isBitlayer(chainId) && currencyId?.toLowerCase() === "btc");
+    currencyId?.toLowerCase() === NATIVE_CURRENCY[chainId ?? -1]?.toLowerCase()
   if (isNative) {
     return nativeOnChain(chainId)
   }

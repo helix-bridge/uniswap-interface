@@ -26,8 +26,9 @@ import { FeatureFlags } from 'uniswap/src/features/gating/flags'
 import { useFeatureFlag } from 'uniswap/src/features/gating/hooks'
 import { Connector } from 'wagmi'
 import ChainSelectorRow from './ChainSelectorRow'
+import { isChainSupportedByHelixSwap } from '@uniswap/smart-order-router'
 
-const NETWORK_SELECTOR_CHAINS = [...L1_CHAIN_IDS, ...L2_CHAIN_IDS]
+const NETWORK_SELECTOR_CHAINS = [...L1_CHAIN_IDS, ...L2_CHAIN_IDS].filter(isChainSupportedByHelixSwap)
 
 const StyledDropdownButton = css`
   display: flex;

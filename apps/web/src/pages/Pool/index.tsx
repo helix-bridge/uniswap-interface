@@ -26,6 +26,8 @@ import Trace from 'uniswap/src/features/telemetry/Trace'
 import CTACards from './CTACards'
 import { LoadingRows } from './styled'
 import { ChainAllPoolsTable } from 'components/Pools/PoolTable/PoolTable'
+import { useSwapAndLimitContext } from 'state/swap/hooks'
+import { NATIVE_CURRENCY } from '@uniswap/smart-order-router'
 
 const PageWrapper = styled(AutoColumn)`
   padding: 68px 8px 0px;
@@ -195,6 +197,7 @@ export default function Pool() {
   const isSupportedChain = useIsSupportedChainId(account.chainId)
   const networkSupportsV2 = useNetworkSupportsV2()
   const accountDrawer = useAccountDrawer()
+  const { chainId } = useSwapAndLimitContext()
 
   const theme = useTheme()
   const [userHideClosedPositions, setUserHideClosedPositions] = useUserHideClosedPositions()
@@ -283,7 +286,7 @@ export default function Pool() {
                     )}
                   />
                 )}
-                <ResponsiveButtonPrimary data-cy="join-pool-button" id="join-pool-button" as={Link} to="/add/BTC">
+                <ResponsiveButtonPrimary data-cy="join-pool-button" id="join-pool-button" as={Link} to={`/add/${chainId ? (NATIVE_CURRENCY[chainId] ?? 'ETH') : 'ETH'}`}>
                   + <Trans i18nKey="pool.newPosition" />
                 </ResponsiveButtonPrimary>
               </ButtonRow>

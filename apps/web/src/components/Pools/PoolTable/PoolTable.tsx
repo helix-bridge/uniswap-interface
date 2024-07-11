@@ -1,8 +1,8 @@
 import { ApolloError } from '@apollo/client'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { InterfaceElementName } from '@uniswap/analytics-events'
-import { ChainId, CurrencyAmount, Percent, Token as CoreToken } from '@uniswap/sdk-core'
-import { BRC_BITLAYER_TESTNET, USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET, WBTC_BITLAYER_TESTNET } from '@uniswap/smart-order-router'
+import { ChainId, CurrencyAmount, Percent, Token as CoreToken, Currency } from '@uniswap/sdk-core'
+import { BRC_BITLAYER_TESTNET, USDC_BITLAYER, USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET, WBTC_BITLAYER, WBTC_BITLAYER_TESTNET } from '@uniswap/smart-order-router'
 import { FeeAmount, Pool, Position } from '@uniswap/v3-sdk'
 import { ButtonEmphasis, ButtonSize, ThemeButton } from 'components/Button'
 import { DoubleCurrencyAndChainLogo } from 'components/DoubleLogo'
@@ -27,7 +27,6 @@ import { useAtom } from 'jotai'
 import { atomWithReset, useAtomValue, useResetAtom, useUpdateAtom } from 'jotai/utils'
 import { ReactElement, ReactNode, useCallback, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSwapAndLimitContext } from 'state/swap/hooks'
 import styled from 'styled-components'
 import { ThemedText } from 'theme/components'
 import { PositionDetails } from 'types/position'
@@ -409,32 +408,49 @@ export function PoolsTable({
   )
 }
 
+function getPoolKeys(chainId: ChainId | undefined): [Currency, Currency, FeeAmount][] {
+  switch (chainId) {
+    case ChainId.BITLAYER_TESTNET:
+      return [
+        [
+          unwrappedToken(USDC_BITLAYER_TESTNET),
+          unwrappedToken(USDT_BITLAYER_TESTNET),
+          FeeAmount.LOW,
+        ],
+        [
+          unwrappedToken(USDC_BITLAYER_TESTNET),
+          unwrappedToken(WBTC_BITLAYER_TESTNET),
+          FeeAmount.LOW,
+        ],
+        [
+          unwrappedToken(USDC_BITLAYER_TESTNET),
+          unwrappedToken(BRC_BITLAYER_TESTNET),
+          FeeAmount.LOW,
+        ],
+        [
+          unwrappedToken(USDT_BITLAYER_TESTNET),
+          unwrappedToken(WBTC_BITLAYER_TESTNET),
+          FeeAmount.LOW,
+        ],
+      ]
+    case ChainId.BITLAYER:
+      return [
+        [
+          unwrappedToken(USDC_BITLAYER),
+          unwrappedToken(WBTC_BITLAYER),
+          FeeAmount.LOW,
+        ],
+      ]
+    default:
+      return []
+  }
+}
+
 export function ChainAllPoolsTable() {
   const account = useAccount();
-  const { chainId } = useSwapAndLimitContext();
+  const chain = useChainFromUrlParam()
 
-  const pools = usePools([
-    [
-      unwrappedToken(USDC_BITLAYER_TESTNET),
-      unwrappedToken(USDT_BITLAYER_TESTNET),
-      FeeAmount.LOW,
-    ],
-    [
-      unwrappedToken(USDC_BITLAYER_TESTNET),
-      unwrappedToken(WBTC_BITLAYER_TESTNET),
-      FeeAmount.LOW,
-    ],
-    [
-      unwrappedToken(USDC_BITLAYER_TESTNET),
-      unwrappedToken(BRC_BITLAYER_TESTNET),
-      FeeAmount.LOW,
-    ],
-    [
-      unwrappedToken(USDT_BITLAYER_TESTNET),
-      unwrappedToken(WBTC_BITLAYER_TESTNET),
-      FeeAmount.LOW,
-    ],
-  ]);
+  const pools = usePools(getPoolKeys(chain?.id ?? account.chainId))
   const { positions: userPositions, loading: userPositionsLoading } =
     useV3Positions(account?.address);
   const filteredUserPositions = useFilterPossiblyMaliciousPositions(

@@ -18,6 +18,7 @@ const BLOCK_EXPLORER_PREFIXES: { [chainId: number]: string } = {
   [ChainId.BLAST]: 'https://blastscan.io',
   [ChainId.ZORA]: 'https://zora.superscan.network',
   [ChainId.BITLAYER_TESTNET]: 'https://testnet.btrscan.com',
+  [ChainId.BITLAYER]: 'https://www.btrscan.com',
 }
 
 export enum ExplorerDataType {
