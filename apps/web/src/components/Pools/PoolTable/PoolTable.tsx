@@ -510,7 +510,7 @@ function AllPoolsTable({
           </Cell>
         ),
         cell: (index) => (
-          <Cell justifyContent="center" loading={loading} minWidth={44}>
+          <Cell justifyContent="center" minWidth={44}>
             <ThemedText.BodySecondary>
               {index.getValue?.()}
             </ThemedText.BodySecondary>
@@ -529,7 +529,6 @@ function AllPoolsTable({
           return (
             <Cell
               justifyContent="flex-start"
-              loading={loading}
               width={180}
               grow
             >
@@ -685,5 +684,5 @@ function AllPoolsTable({
     ];
   }, []);
 
-  return <Table columns={columns} data={data} loading={loading} />;
+  return <Table columns={columns} data={data} />;
 }
