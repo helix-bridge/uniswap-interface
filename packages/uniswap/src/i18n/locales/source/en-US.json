@@ -793,7 +793,7 @@
   "swap.warning.rateLimit.title": "Rate limit exceeded",
   "swap.warning.router.message": "You may have lost connection or the network may be down. If the problem persists, please try again later.",
   "swap.warning.router.title": "This trade cannot be completed right now",
-  "swap.warning.uniswapFee.message.default": "Fees are applied to ensure the best experience with Uniswap. There is no fee associated with this swap.",
+  "swap.warning.uniswapFee.message.default": "Fees are applied to ensure the best experience with HelixSwap. There is no fee associated with this swap.",
   "swap.warning.uniswapFee.message.included": "Fees are applied to ensure the best experience with Uniswap, and have already been factored into this quote.",
   "swap.warning.uniswapFee.title": "Swap fee",
   "swap.warning.viewOnly.message": "You need to import this wallet via recovery phrase to swap tokens.",
