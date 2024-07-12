@@ -879,7 +879,7 @@
   "swap.fail.uniswapX": "Swap couldn’t be completed with UniswapX. Try your swap again to route it through the classic Uniswap API.",
   "swap.failed.label": "Your swap could not be executed. Please check your network connection and your slippage settings.",
   "swap.fees.experience": "Fees are applied to ensure the best experience with Uniswap, and have already been factored into this quote.",
-  "swap.fees.noFee": "Fees are applied to ensure the best experience with Uniswap. There is no fee associated with this swap.",
+  "swap.fees.noFee": "Fees are applied to ensure the best experience with HelixSwap. There is no fee associated with this swap.",
   "swap.fetchingBestPrice": "Fetching best price...",
   "swap.fetchingPrice": "Fetching price...",
   "swap.finalizingQuote": "Finalizing quote...",

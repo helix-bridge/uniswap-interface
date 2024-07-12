@@ -10,6 +10,7 @@ import {
   BLAST_LOGO,
   BNB_LOGO,
   CELO_LOGO,
+  DARWINIA_LOGO,
   ETHEREUM_LOGO,
   OPTIMISM_LOGO,
   POLYGON_LOGO,
@@ -114,6 +115,12 @@ export function getChainUI(chainId: ChainId, darkMode: boolean): ChainUI | undef
     case ChainId.BITLAYER:
       return {
         symbol: BITLAYER_LOGO,
+        bgColor: '#6B8AFF33',
+        textColor: '#6B8AFF',
+      }
+    case ChainId.DARWINIA:
+      return {
+        symbol: DARWINIA_LOGO,
         bgColor: '#6B8AFF33',
         textColor: '#6B8AFF',
       }

@@ -2,7 +2,7 @@ import { ApolloError } from '@apollo/client'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { InterfaceElementName } from '@uniswap/analytics-events'
 import { ChainId, CurrencyAmount, Percent, Token as CoreToken, Currency } from '@uniswap/sdk-core'
-import { BRC_BITLAYER_TESTNET, USDC_BITLAYER, USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET, WBTC_BITLAYER, WBTC_BITLAYER_TESTNET } from '@uniswap/smart-order-router'
+import { BRC_BITLAYER_TESTNET, USDC_BITLAYER, USDC_BITLAYER_TESTNET, USDT_BITLAYER_TESTNET, USDT_DARWINIA, WBTC_BITLAYER, WBTC_BITLAYER_TESTNET, WRING_DARWINIA } from '@uniswap/smart-order-router'
 import { FeeAmount, Pool, Position } from '@uniswap/v3-sdk'
 import { ButtonEmphasis, ButtonSize, ThemeButton } from 'components/Button'
 import { DoubleCurrencyAndChainLogo } from 'components/DoubleLogo'
@@ -441,6 +441,14 @@ function getPoolKeys(chainId: ChainId | undefined): [Currency, Currency, FeeAmou
           FeeAmount.LOW,
         ],
       ]
+    case ChainId.DARWINIA:
+      return [
+        [
+          unwrappedToken(USDT_DARWINIA),
+          unwrappedToken(WRING_DARWINIA),
+          FeeAmount.LOW,
+        ],
+      ]
     default:
       return []
   }
@@ -485,7 +493,7 @@ function AllPoolsTable({
   positions: PositionDetails[];
 }) {
   const data = useMemo(
-    () => pools.map((pool, index) => ({ index, pool, positions })),
+    () => pools.map((pool, index) => ({ index: index + 1, pool, positions })),
     [pools, positions]
   );
   const { formatCurrencyAmount } = useFormatter();
@@ -502,7 +510,7 @@ function AllPoolsTable({
           </Cell>
         ),
         cell: (index) => (
-          <Cell justifyContent="center" loading={loading} minWidth={44}>
+          <Cell justifyContent="center" minWidth={44}>
             <ThemedText.BodySecondary>
               {index.getValue?.()}
             </ThemedText.BodySecondary>
@@ -521,7 +529,6 @@ function AllPoolsTable({
           return (
             <Cell
               justifyContent="flex-start"
-              loading={loading}
               width={180}
               grow
             >
@@ -677,5 +684,5 @@ function AllPoolsTable({
     ];
   }, []);
 
-  return <Table columns={columns} data={data} loading={loading} />;
+  return <Table columns={columns} data={data} />;
 }

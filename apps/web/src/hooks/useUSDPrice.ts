@@ -24,6 +24,8 @@ function getEthAmountOutRaw(chainId: SupportedInterfaceChainId) {
     case ChainId.BITLAYER_TESTNET:
     case ChainId.BITLAYER:
       return 10_000
+    case ChainId.DARWINIA:
+      return 1e12
     default:
       return 10e18
   }

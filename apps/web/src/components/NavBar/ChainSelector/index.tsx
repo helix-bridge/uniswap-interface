@@ -28,7 +28,15 @@ import { Connector } from 'wagmi'
 import ChainSelectorRow from './ChainSelectorRow'
 import { isChainSupportedByHelixSwap } from '@uniswap/smart-order-router'
 
-const NETWORK_SELECTOR_CHAINS = [...L1_CHAIN_IDS, ...L2_CHAIN_IDS].filter(isChainSupportedByHelixSwap)
+const CHAINS_ORDERED = [
+  ChainId.BITLAYER,
+  ChainId.BITLAYER_TESTNET,
+  ChainId.DARWINIA,
+]
+
+const NETWORK_SELECTOR_CHAINS = [...L1_CHAIN_IDS, ...L2_CHAIN_IDS]
+  .filter(isChainSupportedByHelixSwap)
+  .sort((a, b) => CHAINS_ORDERED.findIndex((id) => id === a)  - CHAINS_ORDERED.findIndex((id) => id === b))
 
 const StyledDropdownButton = css`
   display: flex;

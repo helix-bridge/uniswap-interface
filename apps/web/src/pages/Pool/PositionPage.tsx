@@ -238,7 +238,8 @@ function LinkedCurrency({ chainId, currency }: { chainId: number; currency?: Cur
   const address = (currency as Token)?.address
   const supportedChain = useSupportedChainId(chainId)
 
-  const Link = isGqlSupportedChain(supportedChain) ? TokenLink : ExternalTokenLink
+  // const Link = isGqlSupportedChain(supportedChain) ? TokenLink : ExternalTokenLink
+  const Link = ExternalTokenLink
   return (
     <Link chainId={chainId} address={address}>
       <RowFixed>
@@ -729,14 +730,15 @@ function PositionPageContent() {
                 <PositionLabelRow>
                   <DoubleCurrencyLogo currencies={[currencyBase, currencyQuote]} size={24} />
                   <StyledPoolLink
-                    to={
-                      poolAddress
-                        ? getPoolDetailsURL(
-                            poolAddress,
-                            chainIdToBackendChain({ chainId: supportedChain, withFallback: true })
-                          )
-                        : ''
-                    }
+                    // to={
+                    //   poolAddress
+                    //     ? getPoolDetailsURL(
+                    //         poolAddress,
+                    //         chainIdToBackendChain({ chainId: supportedChain, withFallback: true })
+                    //       )
+                    //     : ''
+                    // }
+                    to='#'
                   >
                     <PairHeader>
                       &nbsp;{currencyQuote?.symbol}&nbsp;/&nbsp;{currencyBase?.symbol}

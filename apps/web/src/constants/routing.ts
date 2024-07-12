@@ -51,7 +51,7 @@ import {
   WRAPPED_NATIVE_CURRENCY,
   nativeOnChain,
 } from './tokens'
-import { BRC_BITLAYER_TESTNET, USDC_BITLAYER, USDT_BITLAYER } from '@uniswap/smart-order-router'
+import { BRC_BITLAYER_TESTNET, USDC_BITLAYER, USDT_DARWINIA } from '@uniswap/smart-order-router'
 
 type ChainTokenList = {
   readonly [chainId: number]: Token[]
@@ -181,9 +181,13 @@ export const COMMON_BASES: ChainCurrencyList = {
   ].map(buildCurrencyInfo),
   [ChainId.BITLAYER]: [
     nativeOnChain(ChainId.BITLAYER),
-    USDT_BITLAYER,
     USDC_BITLAYER,
     WRAPPED_NATIVE_CURRENCY[ChainId.BITLAYER] as Token,
+  ].map(buildCurrencyInfo),
+  [ChainId.DARWINIA]: [
+    nativeOnChain(ChainId.DARWINIA),
+    USDT_DARWINIA,
+    WRAPPED_NATIVE_CURRENCY[ChainId.DARWINIA] as Token,
   ].map(buildCurrencyInfo),
 }
 

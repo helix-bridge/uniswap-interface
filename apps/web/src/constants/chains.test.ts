@@ -43,6 +43,7 @@ const chainPriorityTestCases: [ChainId, number][] = [
   [ChainId.ZORA, 9],
   [ChainId.BITLAYER_TESTNET, 9],
   [ChainId.BITLAYER, 9],
+  [ChainId.DARWINIA, 9],
 ]
 
 test.each(chainPriorityTestCases)(
@@ -72,6 +73,7 @@ const chainIdNames: { [chainId in SupportedInterfaceChainId]: string } = {
   [ChainId.ZORA]: 'zora',
   [ChainId.BITLAYER_TESTNET]: 'bitlayer_testnet',
   [ChainId.BITLAYER]: 'bitlayer',
+  [ChainId.DARWINIA]: 'darwinia',
 } as const
 
 test.each(Object.keys(chainIdNames).map((key) => parseInt(key) as SupportedInterfaceChainId))(

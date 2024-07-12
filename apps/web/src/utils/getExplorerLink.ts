@@ -19,6 +19,7 @@ const BLOCK_EXPLORER_PREFIXES: { [chainId: number]: string } = {
   [ChainId.ZORA]: 'https://zora.superscan.network',
   [ChainId.BITLAYER_TESTNET]: 'https://testnet.btrscan.com',
   [ChainId.BITLAYER]: 'https://www.btrscan.com',
+  [ChainId.DARWINIA]: 'https://explorer.darwinia.network',
 }
 
 export enum ExplorerDataType {

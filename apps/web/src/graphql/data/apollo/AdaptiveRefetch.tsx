@@ -32,7 +32,7 @@ export function createAdaptiveRefetchContext<T>() {
     // Fetches balances when the query is both stale and subscribed to.
     useEffect(() => {
       if (isStale && numSubscribers) {
-        fetch()
+        // fetch()
         setIsStale(false)
       }
     }, [numSubscribers, fetch, isStale])
@@ -46,7 +46,7 @@ export function createAdaptiveRefetchContext<T>() {
       if (!isStale) {
         return
       }
-      fetch()
+      // fetch()
       setIsStale(false)
     }, [fetch, isStale])
 
