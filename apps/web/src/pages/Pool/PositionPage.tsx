@@ -729,14 +729,15 @@ function PositionPageContent() {
                 <PositionLabelRow>
                   <DoubleCurrencyLogo currencies={[currencyBase, currencyQuote]} size={24} />
                   <StyledPoolLink
-                    to={
-                      poolAddress
-                        ? getPoolDetailsURL(
-                            poolAddress,
-                            chainIdToBackendChain({ chainId: supportedChain, withFallback: true })
-                          )
-                        : ''
-                    }
+                    // to={
+                    //   poolAddress
+                    //     ? getPoolDetailsURL(
+                    //         poolAddress,
+                    //         chainIdToBackendChain({ chainId: supportedChain, withFallback: true })
+                    //       )
+                    //     : ''
+                    // }
+                    to='#'
                   >
                     <PairHeader>
                       &nbsp;{currencyQuote?.symbol}&nbsp;/&nbsp;{currencyBase?.symbol}
