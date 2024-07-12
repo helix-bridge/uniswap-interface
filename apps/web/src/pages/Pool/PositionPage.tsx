@@ -238,7 +238,8 @@ function LinkedCurrency({ chainId, currency }: { chainId: number; currency?: Cur
   const address = (currency as Token)?.address
   const supportedChain = useSupportedChainId(chainId)
 
-  const Link = isGqlSupportedChain(supportedChain) ? TokenLink : ExternalTokenLink
+  // const Link = isGqlSupportedChain(supportedChain) ? TokenLink : ExternalTokenLink
+  const Link = ExternalTokenLink
   return (
     <Link chainId={chainId} address={address}>
       <RowFixed>
