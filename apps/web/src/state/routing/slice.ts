@@ -45,9 +45,7 @@ const DEFAULT_QUERY_PARAMS = {
 
 function getClientParams(chainId: ChainId) {
   if (isChainSupportedByHelixSwap(chainId)) {
-    return {
-      protocols: [Protocol.V3],
-    }
+    return { protocols: [Protocol.V3, Protocol.V2] }
   }
   return CLIENT_PARAMS
 }

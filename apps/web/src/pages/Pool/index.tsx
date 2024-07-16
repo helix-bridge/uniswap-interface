@@ -267,10 +267,10 @@ export default function Pool() {
                 <ThemedText.LargeHeader>
                   <Trans i18nKey="pool.positions" />
                 </ThemedText.LargeHeader>
-                {/* <PoolVersionMenu protocolVersion={ProtocolVersion.V3} /> */}
+                {/* {networkSupportsV2 && <PoolVersionMenu protocolVersion={ProtocolVersion.V3} />} */}
               </Row>
               <ButtonRow>
-                {networkSupportsV2 && (
+                {/* {networkSupportsV2 && (
                   <PoolMenu
                     modal={ApplicationModal.POOL_OVERVIEW_OPTIONS}
                     menuItems={menuItems}
@@ -284,7 +284,7 @@ export default function Pool() {
                       </MoreOptionsButton>
                     )}
                   />
-                )}
+                )} */}
                 <ResponsiveButtonPrimary data-cy="join-pool-button" id="join-pool-button" as={Link} to={`/add/${NATIVE_CURRENCY[account.chainId ?? -1] ?? 'ETH'}`}>
                   + <Trans i18nKey="pool.newPosition" />
                 </ResponsiveButtonPrimary>
