@@ -687,7 +687,7 @@ function AllPoolsTable({
         },
       }),
     ];
-  }, []);
+  }, [loading]);
 
   return <Table columns={columns} data={data} />;
 }
