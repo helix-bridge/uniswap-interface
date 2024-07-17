@@ -3,7 +3,7 @@
 import '@reach/dialog/styles.css'
 import 'inter-ui'
 import 'polyfills'
-import 'tracing'
+// import 'tracing'
 import './i18n' // ensure translations load before things
 /* eslint-enable prettier/prettier */
 
