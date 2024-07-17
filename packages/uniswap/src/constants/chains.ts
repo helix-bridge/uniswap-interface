@@ -1064,7 +1064,7 @@ export const UNIVERSE_CHAIN_INFO = {
       name: 'Wrapped BTC',
       symbol: 'WBTC',
       decimals: 18,
-      address: '0x5F8D4232367759bCe5d9488D3ade77FCFF6B9b6B',
+      address: '0x3e57d6946f893314324C975AA9CEBBdF3232967E',
     },
   } as const satisfies UniverseChainInfo,
   [UniverseChainId.BITLAYER]: {
@@ -1122,7 +1122,7 @@ export const UNIVERSE_CHAIN_INFO = {
     },
     networkLayer: NetworkLayer.L2,
     pendingTransactionsRetryOptions: undefined,
-    spotPriceStablecoinAmount: CurrencyAmount.fromRawAmount(USDC_BITLAYER_TESTNET, 1e4),
+    spotPriceStablecoinAmount: CurrencyAmount.fromRawAmount(USDT_BITLAYER, 1e4),
     stablecoins: [USDC_BITLAYER, USDT_BITLAYER],
     statusPage: undefined,
     supportsClientSideRouting: true,
