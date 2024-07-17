@@ -143,7 +143,7 @@ export default function FiatOnrampModal() {
   ])
 
   useEffect(() => {
-    fetchSignedIframeUrl()
+    // fetchSignedIframeUrl()
   }, [fetchSignedIframeUrl])
 
   return (

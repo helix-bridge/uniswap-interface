@@ -100,7 +100,7 @@ export function useUSDPrice(
   const isTokenEthPriced = Boolean(tokenEthPrice || isTokenEthPriceLoading)
   const { data, networkStatus } = useTokenSpotPriceQuery({
     variables: { chain: chain ?? Chain.Ethereum, address: getNativeTokenDBAddress(chain ?? Chain.Ethereum) },
-    skip: !isTokenEthPriced || !isWindowVisible,
+    skip: !isTokenEthPriced || !isWindowVisible || true,
     pollInterval: PollingInterval.Normal,
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'cache-first',
